@@ -1,4 +1,5 @@
 <template>
+  <div></div>
 <!--  <div class="menu-container">-->
 <!--    <h3>添加菜单</h3>-->
 <!--    <div v-for="(menu, index) in menus" :key="index" class="menu-item">-->
