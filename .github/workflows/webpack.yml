@@ -1,17 +1,19 @@
-name: Genius 前端 [CI|CD]流
+name: otow Github Action
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
-  build-frontend:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: FRONT_END_ENV
-    
+
     steps:
       # 下载源码
       - uses: actions/checkout@v3
@@ -20,6 +22,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "18"
+      # 缓存
       - name: 查找依赖缓存 🔍
         uses: actions/cache@v2
         id: cache
@@ -28,26 +31,28 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+      # 下载依赖
       - name: 如果没有缓存就 NPM 下载依赖 📥
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
+      # build项目
       - name: NPM 构建项目 🛠️
         run: npm run build
-      - name: Log in to Docker Hub
+      # 登录docker
+      - name: 登录 Docker Hub 🛬
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/otow-front .
-        working-directory: otow-front
-
-      - name: Push Docker image
+      # 创建docker镜像
+      - name: 创建 Docker 镜像 📷
+        run: sudo docker buildx build --platform=linux/amd64 --file ./Dockerfile . --tag ${{ secrets.DOCKER_USERNAME }}/otow-front
+      # 上传docker镜像
+      - name: 上传 Docker 镜像 📸
         run: docker push ${{ secrets.DOCKER_USERNAME }}/otow-front
-
-      - name: SSH into server and deploy
+      # 连接并部署
+      - name: SSH 连接并部署
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_ADDRESS }}
-          username: root
+          username: ubuntu
           password: ${{ secrets.SERVER_PWD }}
           script: |
             stop_docker_name=$(docker ps --filter "expose=80" --format "{{.Names}}")
@@ -59,3 +64,9 @@ jobs:
             sleep 3
             docker pull ${{ secrets.DOCKER_USERNAME }}/otow-front
             docker run --name otow-front -d -p 0.0.0.0:80:80 -p 0.0.0.0:443:443 -v /home/nginx:/etc/nginx ${{ secrets.DOCKER_USERNAME }}/otow-front
+            # 检测服务是否启动成功
+            if sudo docker ps --filter name=otow-front; then
+                echo "$stop_docker_name 服务启动成功Pass"
+            else
+                echo "$stop_docker_name 服务启动失败Fail"
+            fi
