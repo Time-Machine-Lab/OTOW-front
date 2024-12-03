@@ -12,7 +12,7 @@ const retries = 2; // 设置重试次数为3次
 const retryDelay = 1000; // 设置重试的间隔时间
 // request 拦截器
 request.interceptors.request.use(
-    (config:any) => {
+    (config) => {
         config.headers['Content-Type'] = 'application/json';
         const Authorization = storage.get<string>('Authorization')
         if(Authorization) config.headers.Authorization = Authorization
@@ -26,7 +26,7 @@ request.interceptors.request.use(
 // response 拦截器
 // 可以在接口响应后统一处理结果
 request.interceptors.response.use(
-    (response:any) => {
+    (response) => {
         const snackbarStore = useSnackbarStore();
         if (response.status != 200) {
             snackbarStore.showErrorMessage("请求拦截器异常!");
