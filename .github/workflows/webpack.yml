@@ -1,4 +1,4 @@
-name: OTOW Github Action
+name: otow Github Action
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 
 on:
@@ -43,10 +43,10 @@ jobs:
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       # 创建docker镜像
       - name: 创建 Docker 镜像 📷
-        run: sudo docker buildx build --platform=linux/amd64 --file ./Dockerfile . --tag ${{ secrets.DOCKER_USERNAME }}/OTOW-front
+        run: sudo docker buildx build --platform=linux/amd64 --file ./Dockerfile . --tag ${{ secrets.DOCKER_USERNAME }}/otow-front
       # 上传docker镜像
       - name: 上传 Docker 镜像 📸
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/OTOW-front
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/otow-front
       # 连接并部署
       - name: SSH 连接并部署
         uses: appleboy/ssh-action@master
@@ -59,13 +59,13 @@ jobs:
             if [ "$stop_docker_name" != "" ]; then
             docker stop $stop_docker_name
             fi
-            docker rm OTOW-front || true
-            docker rmi $(docker images ${{ secrets.DOCKER_USERNAME }}/OTOW-front -q) || true
+            docker rm otow-front || true
+            docker rmi $(docker images ${{ secrets.DOCKER_USERNAME }}/otow-front -q) || true
             sleep 3
-            docker pull ${{ secrets.DOCKER_USERNAME }}/OTOW-front
-            docker run --name OTOW-front -d -p 0.0.0.0:80:80 -p 0.0.0.0:443:443 -v /home/nginx:/etc/nginx ${{ secrets.DOCKER_USERNAME }}/OTOW-front
+            docker pull ${{ secrets.DOCKER_USERNAME }}/otow-front
+            docker run --name otow-front -d -p 0.0.0.0:80:80 -p 0.0.0.0:443:443 -v /home/nginx:/etc/nginx ${{ secrets.DOCKER_USERNAME }}/otow-front
             # 检测服务是否启动成功
-            if sudo docker ps --filter name=OTOW-front; then
+            if sudo docker ps --filter name=otow-front; then
                 echo "$img 服务启动成功Pass"
             else
                 echo "$img 服务启动失败Fail"
