@@ -43,10 +43,10 @@ jobs:
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       # 创建docker镜像
       - name: 创建 Docker 镜像 📷
-        run: sudo docker buildx build --platform=linux/amd64 --file ./Dockerfile . --tag ${{ secrets.DOCKER_USERNAME }}/lisianthus
+        run: sudo docker buildx build --platform=linux/amd64 --file ./Dockerfile . --tag ${{ secrets.DOCKER_USERNAME }}/OTOW-front
       # 上传docker镜像
       - name: 上传 Docker 镜像 📸
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/lisianthus
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/OTOW-front
       # 连接并部署
       - name: SSH 连接并部署
         uses: appleboy/ssh-action@master
@@ -55,33 +55,17 @@ jobs:
           username: ubuntu
           password: ${{ secrets.SERVER_PWD }}
           script: |
-            # 配置镜像名称
-            img=OTOW
-            # 配置容器名称
-            container=mycontainer
-            sudo -i
-            
-            if sudo docker ps -a --filter name=mycontainer; then
-              echo "容器: $container 存在，删除容器."
-              sudo docker stop mycontainer
-              sudo docker rm -f mycontainer
-            else
-              echo "容器: mycontainer 不存在" 
+            stop_docker_name=$(docker ps --filter "expose=80" --format "{{.Names}}")
+            if [ "$stop_docker_name" != "" ]; then
+            docker stop $stop_docker_name
             fi
-            
-            if sudo docker images --filter=reference=OTOW; then
-              echo "镜像: OTOW 镜像存在, 删除镜像重新构建."
-              sudo docker rmi -f OTOW
-            fi
+            docker rm OTOW-front || true
+            docker rmi $(docker images ${{ secrets.DOCKER_USERNAME }}/OTOW-front -q) || true
             sleep 3
-            echo "拉取 $img 新镜像."
-            sudo docker pull OTOW:latest
-
-            echo "启动 $img 容器服务!"
-            sudo docker run --name mycontainer -d -p 80:80 -p 443:443 OTOW
-            
+            docker pull ${{ secrets.DOCKER_USERNAME }}/OTOW-front
+            docker run --name OTOW-front -d -p 0.0.0.0:80:80 -p 0.0.0.0:443:443 -v /home/nginx:/etc/nginx ${{ secrets.DOCKER_USERNAME }}/OTOW-front
             # 检测服务是否启动成功
-            if sudo docker ps --filter name=mycontainer; then
+            if sudo docker ps --filter name=OTOW-front; then
                 echo "$img 服务启动成功Pass"
             else
                 echo "$img 服务启动失败Fail"
