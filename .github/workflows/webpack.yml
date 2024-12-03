@@ -15,17 +15,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-
-      - name: Checkout Auto Label
-        run: |
-          if [[ "${{ github.event.head_commit.message }}" == *"<Auto-Frontend>"* ]]; then
-            echo "Commit message contains <Auto>. Proceeding with the workflow."
-          else
-            echo "Commit message does not contain <Auto-Frontend>. Skipping the workflow."
-            exit 78 
-          fi
-
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
