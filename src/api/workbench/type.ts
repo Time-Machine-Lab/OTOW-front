@@ -1,6 +1,6 @@
-export interface project {
+// 项目类
+export interface project extends detail{
     id: number
-    detail:detail
 }
 export interface detail {
     name: string
@@ -11,3 +11,4 @@ export interface detail {
     cover: string
     url: string
 }
+
