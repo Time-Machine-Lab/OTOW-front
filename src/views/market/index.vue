@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import marketCard from '@/components/market/MarketCard.vue'
+import type { MarketData } from '@/api/market/type.ts';
 import {reactive} from "vue";
 const searchParam = reactive({
   searchWord: null

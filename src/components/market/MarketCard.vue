@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { MarketData } from '@/type/market/Market.ts';
+import type { MarketData } from '@/api/market/type.ts';
 
 // 使用 defineProps 来定义组件的 props
 const props = defineProps<{
@@ -14,7 +14,7 @@ const props = defineProps<{
       {{ props.marketData.title }}
     </div>
     <div class="info">
-      {{ props.marketData.info }}
+      {{ props.marketData.description }}
     </div>
     <div class="bottom-btn">
       <span>View Product   -></span>
