@@ -58,15 +58,15 @@ jobs:
             # 配置镜像名称
             img=${{ secrets.DOCKER_USERNAME }}/lisianthus
             # 配置容器名称
-            container=otow
+            container=lisianthus
             sudo -i
             
-            if sudo docker ps -a --filter name=otow; then
+            if sudo docker ps -a --filter name=$container; then
               echo "容器: $container 存在，删除容器."
-              sudo docker stop otow
-              sudo docker rm -f otow
+              sudo docker stop $container
+              sudo docker rm -f $container
             else
-              echo "容器: otow 不存在" 
+              echo "容器: $container 不存在" 
             fi
             
             if sudo docker images --filter=reference=$img; then
@@ -78,10 +78,10 @@ jobs:
             sudo docker pull $img:latest
 
             echo "启动 $img 容器服务!"
-            sudo docker run --name otow -d -p 80:80 -p 443:443 $img
+            sudo docker run --name $container -d -p 80:80 -p 443:443 $img
             
             # 检测服务是否启动成功
-            if sudo docker ps --filter name=otow; then
+            if sudo docker ps --filter name=$container; then
                 echo "$img 服务启动成功Pass"
             else
                 echo "$img 服务启动失败Fail"
