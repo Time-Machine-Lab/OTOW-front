@@ -74,15 +74,23 @@ jobs:
               sudo docker rmi -f $img
             fi
             sleep 3
-            echo "拉取 $img 新镜像."
+            
+            # 拉取新镜像
             sudo docker pull $img:latest
+            if sudo docker images --filter=reference=$img; then
+              echo "拉取 $img 新镜像成功."
+            else
+              echo "拉取 $img 新镜像失败." 
+              exit 78
+            fi
 
             echo "启动 $img 容器服务!"
-            sudo docker run --name $container -d -p 80:80 -p 443:443 $img
+            sudo docker run --name $container -d -p 8080:80 $img
             
             # 检测服务是否启动成功
             if sudo docker ps --filter name=$container; then
                 echo "$img 服务启动成功Pass"
             else
                 echo "$img 服务启动失败Fail"
+                exit 78 
             fi
