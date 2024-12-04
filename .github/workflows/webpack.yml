@@ -1,4 +1,4 @@
-name: OTOW Github Action
+name: Build and Deploy Web
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 
 on:
@@ -56,33 +56,41 @@ jobs:
           password: ${{ secrets.SERVER_PWD }}
           script: |
             # 配置镜像名称
-            img=OTOW
+            img=${{ secrets.DOCKER_USERNAME }}/lisianthus
             # 配置容器名称
-            container=mycontainer
+            container=lisianthus
             sudo -i
             
-            if sudo docker ps -a --filter name=mycontainer; then
+            if sudo docker ps -a --filter name=$container; then
               echo "容器: $container 存在，删除容器."
-              sudo docker stop mycontainer
-              sudo docker rm -f mycontainer
+              sudo docker stop $container
+              sudo docker rm -f $container
             else
-              echo "容器: mycontainer 不存在" 
+              echo "容器: $container 不存在" 
             fi
             
-            if sudo docker images --filter=reference=OTOW; then
-              echo "镜像: OTOW 镜像存在, 删除镜像重新构建."
-              sudo docker rmi -f OTOW
+            if sudo docker images --filter=reference=$img; then
+              echo "镜像: $img 镜像存在, 删除镜像重新构建."
+              sudo docker rmi -f $img
             fi
             sleep 3
-            echo "拉取 $img 新镜像."
-            sudo docker pull OTOW:latest
+            
+            # 拉取新镜像
+            sudo docker pull $img:latest
+            if sudo docker images --filter=reference=$img; then
+              echo "拉取 $img 新镜像成功."
+            else
+              echo "拉取 $img 新镜像失败." 
+              exit 78
+            fi
 
-            echo "启动 $img 容器服务!"
-            sudo docker run --name mycontainer -d -p 80:80 -p 443:443 OTOW
+            echo "启动 $img 容器服务! 容器80端口映射到主机8080端口"
+            sudo docker run --name $container -d -p 8080:80 $img
             
             # 检测服务是否启动成功
-            if sudo docker ps --filter name=mycontainer; then
+            if sudo docker ps --filter name=$container; then
                 echo "$img 服务启动成功Pass"
             else
                 echo "$img 服务启动失败Fail"
+                exit 78 
             fi
