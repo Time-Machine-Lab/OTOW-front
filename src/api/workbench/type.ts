@@ -11,4 +11,3 @@ export interface detail {
     cover: string
     url: string
 }
-
