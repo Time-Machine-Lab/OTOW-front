@@ -19,8 +19,8 @@ COPY --from=build-stage /app/dist /usr/share/nginx/html
 # COPY dist/lisianthus.cn_bundle.crt /etc/nginx/ssl/lisianthus.cn_bundle.pem
 # COPY dist/lisianthus.cn.key /etc/nginx/ssl/lisianthus.cn.key
 # RUN ls -l /etc/nginx/ssl/lisianthus.cn.key || exit 1
-# 暴露端口 80
-EXPOSE 8080
+# docker服务在 80 端口监听，对应容器80端口
+EXPOSE 80
 
 # 添加默认的 Nginx 配置文件
 COPY nginx.conf /etc/nginx/conf.d/default.conf
