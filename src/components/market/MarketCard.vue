@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { MarketData } from '@/api/market/type.ts';
+import { type MarketData } from '@/type/market/Market.ts';
 
 // 使用 defineProps 来定义组件的 props
 const props = defineProps<{
@@ -17,8 +17,8 @@ const props = defineProps<{
       {{ props.marketData.description }}
     </div>
     <div class="bottom-btn">
-      <span>View Product   -></span>
-
+      <span>View Product   </span>
+      <v-icon icon="mdi-home-analytics" />
     </div>
   </div>
 </template>
@@ -27,34 +27,38 @@ const props = defineProps<{
 .market-card {
   width: 100%;
   height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 15px;
+  overflow: hidden;
 }
 .top-picture {
   width: 100%;
-  height: 45%;
-  background-size: auto; /* 保持图片原始大小 */
+  height: 55%;
+  background-size: cover; /* 保持图片原始大小 */
   background-position: center; /* 图片居中显示 */
   background-repeat: no-repeat; /* 防止图片重复 */
 }
 
 .title {
   width: 100%;
-  height: 20%;
-  padding: 10px;
-  font-size: 24px;
+  height: 15%;
+  padding: 15px 10px 5px 15px;
+  font-size: 28px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .info {
   width: 100%;
-  height: 20%;
+  height: 15%;
   padding: 10px;
   font-size: 18px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .bottom-btn{
   display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
   align-items: center; /* 垂直居中（可选） */
   width: 100%;
   height: 15%;
-
 }
 </style>

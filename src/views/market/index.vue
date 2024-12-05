@@ -8,7 +8,7 @@ const searchParam = reactive({
 
 // 创建 15 条模拟数据
 const marketCards = reactive<MarketData[]>([
-  { title: 'Product 1', description: 'Description for product 1', price: 10, cover: '' },
+  { title: 'Product 1', description: 'Description for product 1', price: 10, cover: 'https://www.clearstreet.io/imgs/home/header/webp/ct_header_end76.webp' },
   { title: 'Product 2', description: 'Description for product 2', price: 20, cover: '' },
   { title: 'Product 3', description: 'Description for product 3', price: 30, cover: '' },
   { title: 'Product 4', description: 'Description for product 4', price: 40, cover: '' },
@@ -48,8 +48,8 @@ const marketCards = reactive<MarketData[]>([
 
 <style scoped>
 .market-view{
-  width: 100vw;
-  height: 100vh;
+  min-width: 100vw;
+  min-height: 100vh;
   background-color: #f0eae1 ;
   overflow: hidden;
 }
@@ -65,7 +65,7 @@ const marketCards = reactive<MarketData[]>([
 
 .top-search-bar input{
   width: 50vw;
-  height: 35px;
+  height: 45px;
   margin:0 auto;
   border-radius: 15px;
   font-size: 20px;
@@ -84,9 +84,10 @@ const marketCards = reactive<MarketData[]>([
   display: grid;
   margin: 0 auto;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  max-width: calc(4 * 400px + 3 * 20px + 10vw); /* 控制最大宽度以限制列数 */
+  max-width: calc(4 * 350px + 3 * 20px + 10vw); /* 控制最大宽度以限制列数 */
   gap: 20px; /* 元素之间的间隔 */
   padding: 0 5vw; /* 左右 padding 为 5vw */
+  grid-auto-rows: 650px;
 }
 
 </style>
