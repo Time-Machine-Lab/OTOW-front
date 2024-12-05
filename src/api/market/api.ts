@@ -4,7 +4,7 @@ import request from '@/util/request';
 export async function searchProject(page: number=1, limit: number=10,cmd: number=2,name?: string):Promise<any>{
     try {
         const response = await request({
-            url: '/search',
+            url: '/project/search',
             method: "post",
             params: {
                 page:page,
@@ -16,5 +16,20 @@ export async function searchProject(page: number=1, limit: number=10,cmd: number
         return response;
     } catch (error) {
         console.error('查询项目请求失败：', error);
+    }
+}
+
+export async function downloadProject(id:number):Promise<any>{
+    try {
+        const response = await request({
+            url: '/project/download',
+            method: "get",
+            params: {
+                id: id
+            }
+        })
+        return response;
+    } catch (error) {
+        console.error('下载项目请求失败：', error);
     }
 }

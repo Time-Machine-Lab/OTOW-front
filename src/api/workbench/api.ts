@@ -5,7 +5,7 @@ import type {detail, project} from "@/api/workbench/type.ts";
 export async function creatProject(data: detail):Promise<any> {
     try {
         const response = await request({
-            url: '/create',
+            url: '/project/create',
             method: "post",
             data: data
         });
@@ -19,7 +19,7 @@ export async function creatProject(data: detail):Promise<any> {
 export async function editProject(data: project):Promise<any>{
     try {
         const response = await request({
-            url: '/edit',
+            url: '/project/edit',
             method: "post",
             data: data
         })
