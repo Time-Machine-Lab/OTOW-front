@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import marketCard from '@/components/market/MarketCard.vue'
-import type { MarketData } from '@/api/market/type.ts';
+import type {MarketData} from "@/type/market/Market.ts";
 import {reactive} from "vue";
 const searchParam = reactive({
   searchWord: null
@@ -8,21 +8,8 @@ const searchParam = reactive({
 
 // 创建 15 条模拟数据
 const marketCards = reactive<MarketData[]>([
-  { title: 'Product 1', description: 'Description for product 1', price: 10, cover: 'https://www.clearstreet.io/imgs/home/header/webp/ct_header_end76.webp' },
-  { title: 'Product 2', description: 'Description for product 2', price: 20, cover: '' },
-  { title: 'Product 3', description: 'Description for product 3', price: 30, cover: '' },
-  { title: 'Product 4', description: 'Description for product 4', price: 40, cover: '' },
-  { title: 'Product 5', description: 'Description for product 5', price: 50, cover: '' },
-  { title: 'Product 6', description: 'Description for product 6', price: 60, cover: '' },
-  { title: 'Product 7', description: 'Description for product 7', price: 70, cover: '' },
-  { title: 'Product 8', description: 'Description for product 8', price: 80, cover: '' },
-  { title: 'Product 9', description: 'Description for product 9', price: 90, cover: '' },
-  { title: 'Product 10', description: 'Description for product 10', price: 100, cover: '' },
-  { title: 'Product 11', description: 'Description for product 11', price: 110, cover: '' },
-  { title: 'Product 12', description: 'Description for product 12', price: 120, cover: '' },
-  { title: 'Product 13', description: 'Description for product 13', price: 130, cover: '' },
-  { title: 'Product 14', description: 'Description for product 14', price: 140, cover: '' },
-  { title: 'Product 15', description: 'Description for product 15', price: 150, cover: '' }
+  {id:'0', name: 'Product 1', introduce: 'introduce for product 1', price: 10, cover: 'https://www.clearstreet.io/imgs/home/header/webp/ct_header_end76.webp', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
+
 ]);
 </script>
 
