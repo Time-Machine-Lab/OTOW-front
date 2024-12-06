@@ -15,6 +15,11 @@ const router = createRouter({
       children: [
         {
           path: '',
+          name: 'first',
+          component: MarketView,
+        },
+        {
+          path: 'market',
           name: 'market',
           component: MarketView,
         },

@@ -10,9 +10,8 @@ import Snackbar from "@/components/normal/Snackbar.vue";
 const currentIndex = ref(0)
 const tabs = [
   { name: 'market', local: '/market' },
-  { name: 'home', component: '/market' },
+  { name: 'home', local: '/market' },
 ]
-const component = ref(tabs[0].component)
 // 通过tab切换内容展示
 const selectTab = (index: any) =>{
   currentIndex.value = index;
@@ -36,7 +35,7 @@ const authStore = useAuthStore();
           :key="index"
           class="tab-button"
           :class="{ active: currentIndex === index }"
-          @click="selectTab(index)"
+          @click="router.push(tabs[index].local)"
         >
           <Text>{{ tab.name }}</Text>
         </div>
