@@ -110,13 +110,13 @@ const loginEvent = function (){
 }
 
 .form-item input{
-  height: 22px ;
+  height: 32px ;
   width: 65%;
   border: none;
   outline: none;
   border-radius:  20px;
   background-color: #f0eae1;
-  color:  #094255;
+  color: #000000;
   margin-bottom: 0;
   padding: .5rem .75rem;
   font-size: 1rem;

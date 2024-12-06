@@ -7,11 +7,20 @@ import router from './router'
 // Vuetify
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
-import {VSnackbar} from 'vuetify/components'
-import {} from 'vuetify/directives'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+import { aliases, md } from 'vuetify/iconsets/md'
+
 const vuetify = createVuetify({
-    components:{VSnackbar},
-    directives:{}
+        components,
+        directives,
+        icons: {
+                defaultSet: 'md',
+                aliases,
+                sets: {
+                        md,
+                },
+        },
 })
 // Pinia
 import { createPinia } from 'pinia'
@@ -21,7 +30,7 @@ pinia.use(piniaPluginPersistedstate);
 
 const app = createApp(App)
 
-app.use(pinia)
+app.use(createPinia())
 app.use(router)
 app.use(vuetify)
 
