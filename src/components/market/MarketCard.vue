@@ -11,14 +11,16 @@ const props = defineProps<{
   <div class="market-card">
     <div class="top-picture" :style="{ backgroundImage: `url(${props.marketData.cover})` }"></div>
     <div class="title">
-      {{ props.marketData.title }}
+      {{ props.marketData.name }}
     </div>
     <div class="info">
-      {{ props.marketData.description }}
+      {{ props.marketData.introduce }}
     </div>
     <div class="bottom-btn">
-      <span>View Product   </span>
-      <v-icon icon="mdi-home-analytics" />
+      <span>View Product</span>
+      <svg class="icon" aria-hidden="true" style="font-size: 25px;">
+        <use xlink:href="#icon-direction-right"></use>
+      </svg>
     </div>
   </div>
 </template>
@@ -60,5 +62,6 @@ const props = defineProps<{
   align-items: center; /* 垂直居中（可选） */
   width: 100%;
   height: 15%;
+  cursor: pointer
 }
 </style>
