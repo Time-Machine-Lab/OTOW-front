@@ -3,6 +3,7 @@ import {ref} from "vue";
 import MarketView from '@/views/market/index.vue'
 import Text from "@/components/normal/Text.vue";
 import router from "@/router";
+import Snackbar from "@/components/normal/Snackbar.vue";
 
 const currentIndex = ref(0)
 const tabs = [
@@ -16,6 +17,7 @@ const selectTab = (index: any) =>{
 
 <template>
   <div class="home">
+    <Snackbar></Snackbar>
     <!--通知滚动条-->
     <div class="notice"></div>
     <header class="tabs-bar">
@@ -32,7 +34,7 @@ const selectTab = (index: any) =>{
         </div>
       </nav>
       <nav class="side flex">
-        <button class="test" @click="router.push('/login')">login</button>
+        <button  @click="router.push('/login')">login</button>
       </nav>
     </header>
     <div class="tabs-content">

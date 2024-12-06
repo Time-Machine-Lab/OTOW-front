@@ -9,10 +9,10 @@ import router from './router'
 // Vuetify
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
-import {} from 'vuetify/components'
+import {VSnackbar} from 'vuetify/components'
 import {} from 'vuetify/directives'
 const vuetify = createVuetify({
-    components:{},
+    components:{VSnackbar},
     directives:{}
 })
 
