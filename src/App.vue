@@ -2,9 +2,16 @@
 </script>
 
 <template>
-  <RouterView></RouterView>
+  <div class="app-container">
+    <RouterView></RouterView>
+  </div>
 </template>
 
 <style scoped>
+.app-container{
+  min-width: 100vw;
+  min-height: 100vh;
+  background-color: #f0eae1 ;
+}
 
 </style>

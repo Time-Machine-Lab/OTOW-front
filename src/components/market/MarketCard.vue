@@ -11,7 +11,13 @@ const props = defineProps<{
   <div class="market-card">
     <div class="top-picture" :style="{ backgroundImage: `url(${props.marketData.cover})` }"></div>
     <div class="title">
-      {{ props.marketData.name }}
+      <div class="project_type">
+        {{props.marketData.codeLanguage}}
+      </div>
+      <div class="project_name">
+        {{ props.marketData.name }}
+      </div>
+
     </div>
     <div class="info">
       {{ props.marketData.introduce }}
@@ -26,6 +32,7 @@ const props = defineProps<{
 </template>
 
 <style scoped>
+
 .market-card {
   width: 100%;
   height: 100%;
@@ -40,14 +47,21 @@ const props = defineProps<{
   background-position: center; /* 图片居中显示 */
   background-repeat: no-repeat; /* 防止图片重复 */
 }
-
-.title {
+.title{
   width: 100%;
   height: 15%;
   padding: 15px 10px 5px 15px;
-  font-size: 28px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
+.title .project_type{
+  font-size: 14px;
+  font-weight: lighter;
+}
+
+.title .project_name{
+  font-size: 28px;
+}
+
 .info {
   width: 100%;
   height: 15%;

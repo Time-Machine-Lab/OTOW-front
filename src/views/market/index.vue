@@ -9,14 +9,23 @@ const searchParam = reactive({
 // 创建 15 条模拟数据
 const marketCards = reactive<MarketData[]>([
   {id:'0', name: 'Product 1', introduce: 'introduce for product 1', price: 10, cover: 'https://www.clearstreet.io/imgs/home/header/webp/ct_header_end76.webp', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
-
+  {id:'1', name: 'Product 2', introduce: 'introduce for product 1', price: 10, cover: 'https://www.clearstreet.io/imgs/home/header/webp/ct_header_end76.webp', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
+  {id:'2', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: 'https://www.clearstreet.io/imgs/home/header/webp/ct_header_end76.webp', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
 ]);
+const languageSelectTypes = ["java","go","python"]
 </script>
 
 <template>
   <div class="market-view">
       <div class="top-search-bar">
-        <input v-model="searchParam.searchWord">
+        <div class="search">
+          <v-select
+              label="Select"
+              :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+          ></v-select>
+        </div>
+
+        <input placeholder="Search" v-model="searchParam.searchWord" >
       </div>
       <div class="center-text">
          <p style="font-size: 80px; font-weight: bolder">Market</p>
@@ -35,9 +44,6 @@ const marketCards = reactive<MarketData[]>([
 
 <style scoped>
 .market-view{
-  min-width: 100vw;
-  min-height: 100vh;
-  background-color: #f0eae1 ;
   overflow: hidden;
 }
 
@@ -48,15 +54,21 @@ const marketCards = reactive<MarketData[]>([
   width: 100%;
   height: 80px;
 }
+.top-search-bar .search{
+  display: flex;
+  justify-content: space-around;
+  width: 300px;
+  height: 100%;
+}
 
 
 .top-search-bar input{
   width: 50vw;
   height: 45px;
-  margin:0 auto;
   border-radius: 15px;
   font-size: 20px;
   padding: 5px;
+  padding-left: 20px;
   background-color: rgba(0,0,0,0.1);
 }
 
