@@ -5,6 +5,7 @@ import Text from "@/components/normal/Text.vue";
 import router from "@/router";
 import Snackbar from "@/components/normal/Snackbar.vue";
 
+// 导航栏
 const currentIndex = ref(0)
 const tabs = [
   { name: 'market', component: MarketView },
@@ -13,6 +14,10 @@ const tabs = [
 const selectTab = (index: any) =>{
   currentIndex.value = index;
 }
+
+// 登陆状态
+import { useAuthStore } from "@/stores/authStore.ts";
+const authStore = useAuthStore();
 </script>
 
 <template>
@@ -34,7 +39,8 @@ const selectTab = (index: any) =>{
         </div>
       </nav>
       <nav class="side flex">
-        <button  @click="router.push('/login')">login</button>
+        <button v-if="!authStore.isLoggedIn" @click="router.push('/login')">login</button>
+        <button v-else @click="router.push('/personal')">头像</button>
       </nav>
     </header>
     <div class="tabs-content">
