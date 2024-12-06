@@ -40,9 +40,6 @@ const authStore = useAuthStore();
         >
           <Text>{{ tab.name }}</Text>
         </div>
-        <div class="search">
-          <input placeholder="Search"/>
-        </div>
       </nav>
       <nav class="side flex">
         <button v-if="!authStore.isLoggedIn" @click="router.push('/login')">login</button>

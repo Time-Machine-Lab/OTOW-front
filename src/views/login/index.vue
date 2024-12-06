@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import {reactive} from "vue";
+// import {login} from "@/api/login/api.ts";
+import router from "@/router";
 
 const loginParam = reactive({
   username: null,
   password: null,
 })
 const loginEvent = function (){
-
+  router.push('/personal')
 }
 </script>
 
@@ -21,7 +23,7 @@ const loginEvent = function (){
         </p>
         <div class="login-form">
             <div class="form-item">
-              <p>用户名</p>
+              <p>邮箱</p>
               <input v-model="loginParam.username">
             </div>
           <div class="form-item">
