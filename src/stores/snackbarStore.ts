@@ -1,17 +1,18 @@
 import { defineStore } from "pinia";
+type IconType = 'info' | 'success' | 'error' | 'warning';
 export const useSnackbarStore = defineStore({
   id: "snackbarStore",
   state: () => ({
     isShow: false,
     message: "",
-    type: "",
+    type: "info" as IconType,
   }),
   getters: {},
   actions: {
     showMessage(message: string) {
       this.isShow = true;
       this.message = message;
-      this.type = "";
+      this.type = "info";
     },
 
     showErrorMessage(message: string) {
@@ -23,11 +24,6 @@ export const useSnackbarStore = defineStore({
       this.isShow = true;
       this.message = message;
       this.type = "success";
-    },
-    showInfoMessage(message: string) {
-      this.isShow = true;
-      this.message = message;
-      this.type = "info";
     },
     showWarningMessage(message: string) {
       this.isShow = true;
