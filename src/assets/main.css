@@ -27,19 +27,6 @@ input{
 button{
   padding: 10px 20px;
   border-radius: 10px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.04);
-}
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0;
-  }
 }
 
 /* 在线链接服务仅供平台体验和调试使用，平台不承诺服务的稳定性，企业客户需下载字体包自行发布使用并做好备份。 */
