@@ -2,7 +2,8 @@
 import { useSnackbarStore } from "@/stores/snackbarStore";
 const snackbarStore = useSnackbarStore();
 
-const getIcon = (type) => {
+type IconType = 'info' | 'success' | 'error' | 'warning';
+const getIcon = (type: IconType) => {
   const icon = {
     info: "mdi-information",
     success: "mdi-check-circle",
