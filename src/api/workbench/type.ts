@@ -11,3 +11,16 @@ export interface detail {
     cover: string
     url: string
 }
+// 项目信息类
+export interface WorkProject {
+    id: string
+    name: string
+    codeLanguage: string
+    cover: string
+    description: string
+    introduce: string
+    nickname: string
+    downloadNums: string
+    viewNums: string
+    price: number
+}

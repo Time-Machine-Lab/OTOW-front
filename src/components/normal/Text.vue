@@ -6,7 +6,7 @@
 
 <style scoped>
 .text {
-  color: #333;
+  mix-blend-mode: normal;
   font-size: 16px;
   padding:10px 30px;
   margin:auto;
