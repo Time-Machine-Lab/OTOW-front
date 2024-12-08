@@ -15,6 +15,7 @@ const tabs = [
 // 通过tab切换内容展示
 const selectTab = (index: any) =>{
   currentIndex.value = index;
+  router.push(tabs[index].local)
 }
 
 // 登陆状态
@@ -35,12 +36,9 @@ const authStore = useAuthStore();
           :key="index"
           class="tab-button"
           :class="{ active: currentIndex === index }"
-          @click="router.push(tabs[index].local)"
+          @click="selectTab(index)"
         >
           <Text>{{ tab.name }}</Text>
-        </div>
-        <div class="search">
-          <input placeholder="Search"/>
         </div>
       </nav>
       <nav class="side flex">

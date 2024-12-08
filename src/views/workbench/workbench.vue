@@ -21,7 +21,7 @@ onMounted(() => {
     </div>
     <div class="projectList">
       <div class="projectCard">
-        <button>
+        <button @click="">
           <Text>+ Creat new project</Text>
         </button>
       </div>
