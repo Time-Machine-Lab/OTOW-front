@@ -43,13 +43,17 @@ const props = defineProps<{
 .top-picture {
   width: 100%;
   height: 55%;
+  cursor: pointer;
   background-size: cover; /* 保持图片原始大小 */
   background-position: center; /* 图片居中显示 */
   background-repeat: no-repeat; /* 防止图片重复 */
 }
+.top-picture:hover{
+  opacity: 0.7;
+}
 .title{
   width: 100%;
-  height: 15%;
+  height: 19%;
   padding: 15px 10px 5px 15px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
@@ -64,7 +68,7 @@ const props = defineProps<{
 
 .info {
   width: 100%;
-  height: 15%;
+  height: 14%;
   padding: 10px;
   font-size: 18px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -75,7 +79,7 @@ const props = defineProps<{
   padding: 0 20px;
   align-items: center; /* 垂直居中（可选） */
   width: 100%;
-  height: 15%;
+  height: 12%;
   cursor: pointer
 }
 </style>
