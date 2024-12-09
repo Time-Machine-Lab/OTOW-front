@@ -38,9 +38,7 @@ onMounted(() => {
 
 <style scoped>
 .workbench{
-  width:90%;
-  margin:auto;
-  background-color: rgba(255, 255, 255, 0.63);
+  background-color: rgba(255, 255, 255, 0.37);
 }
 .projectList{
   display: grid;
