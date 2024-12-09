@@ -1,15 +1,19 @@
 <script lang="ts" setup>
-import { type MarketData } from '@/type/market/Market.ts';
+import { type projectData } from '@/type/market/Market.ts';
 
 // 使用 defineProps 来定义组件的 props
 const props = defineProps<{
-  marketData: MarketData;
+  marketData: projectData;
 }>();
+const clickProjectEmits = defineEmits(['clickProject']);
+const clickProject = function (){
+  clickProjectEmits('clickProject', props.marketData);
+}
 </script>
 
 <template>
   <div class="market-card">
-    <div class="top-picture" :style="{ backgroundImage: `url(${props.marketData.cover})` }"></div>
+    <div class="top-picture" :style="{ backgroundImage: `url(${props.marketData.cover})` }" @click="clickProject"></div>
     <div class="title">
       <div class="project_type">
         {{props.marketData.codeLanguage}}
@@ -20,9 +24,16 @@ const props = defineProps<{
 
     </div>
     <div class="info">
-      {{ props.marketData.introduce }}
+      <span style="font-weight: lighter; margin-right: 10px">by</span>
+      <span style="font-size: 24px">{{ props.marketData.nickname }}</span>
+
+      <span style="padding-bottom: 10px; font-size:12px; margin-left: auto ">
+        from
+      </span>
+
+      <span style=" font-size: 24px; margin-left: 10px"> {{ props.marketData.price }} RMB </span>
     </div>
-    <div class="bottom-btn">
+    <div class="bottom-btn" @click="clickProject">
       <span>View Product</span>
       <svg class="icon" aria-hidden="true" style="font-size: 25px;">
         <use xlink:href="#icon-direction-right"></use>
@@ -67,11 +78,13 @@ const props = defineProps<{
 }
 
 .info {
+  display: flex;
+  align-items: center;
   width: 100%;
   height: 14%;
-  padding: 10px;
   font-size: 18px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding:  0 20px;
 }
 .bottom-btn{
   display: flex;

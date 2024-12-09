@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/home/index.vue'
 import LoginView from '../views/login/index.vue'
-import MarketView from '../views/market/index.vue'
+import MarketView from '../views/market/list.vue'
 import PersonalView from '../views/personal/index.vue'
 import ProfileView from "../views/profile/index.vue";
 import WorkbenchView from '../views/workbench/workbench.vue'
