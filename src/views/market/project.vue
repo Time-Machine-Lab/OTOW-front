@@ -3,7 +3,7 @@
   <div class="project-pop" :class="{ 'hide': !isVisible }">
     <div style="width: 50%">
       <p>
-        {{props.marketData.codeLanguage}}
+        {{props.projectData.codeLanguage}}
       </p>
 
     </div>
@@ -16,14 +16,16 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { defineProps, defineEmits } from 'vue'
+import { defineProps, defineEmits, onMounted } from 'vue'
 import type { projectData } from '@/type/market/Market.ts'
 
 const props = defineProps<{
-  marketData: projectData;
+  projectData: projectData;
 }>()
 const closePopEmits = defineEmits(['closePop']);
-
+onMounted(()=>{
+  console.log(props)
+})
 const isVisible = ref(true) // 控制弹窗显示状态
 const maskStyle = reactive({
   display: 'block'

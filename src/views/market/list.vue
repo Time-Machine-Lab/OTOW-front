@@ -63,7 +63,20 @@ const selectLanguage = (language: string) => { console.log(`选择了语言: ${l
 const projectPopDialog = ref(false)
 const handleCardEvent = function (project: projectData){
   projectPopDialog.value = true;
+  clickedProjectData = project;
 }
+
+let clickedProjectData: projectData = reactive<projectData>({
+  id: '',
+  name: '',
+  introduce: '',
+  price: 0,
+  cover: '',
+  codeLanguage: '',
+  viewNums: 0,
+  downloadNums: 0,
+  nickname: ''
+});
 
 // 处理项目弹出关闭事件
 const handleCardClose = function (){
@@ -161,7 +174,7 @@ const marketCards = reactive<projectData[]>([
         </div>
       </div>
   </div>
-  <project v-if="projectPopDialog" @closePop="handleCardClose"></project>
+  <project v-if="projectPopDialog" @closePop="handleCardClose" :projectData="clickedProjectData"></project>
 </template>
 
 <style scoped>
