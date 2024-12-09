@@ -21,13 +21,14 @@ const selectTab = (index: any) =>{
 // 登陆状态
 import { useAuthStore } from "@/stores/authStore.ts";
 const authStore = useAuthStore();
+const notice = ref('')
 </script>
 
 <template>
   <div class="home">
     <Snackbar></Snackbar>
     <!--通知滚动条-->
-    <div class="notice"></div>
+    <div class="notice" v-if="notice">{{notice}}</div>
     <header class="tabs-bar">
       <nav class="side flex">logo</nav>
       <nav class="flex">
@@ -92,4 +93,8 @@ const authStore = useAuthStore();
   }
 }
 
+.tabs-content{
+  width:90%;
+  margin:auto;
+}
 </style>
