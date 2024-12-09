@@ -1,4 +1,4 @@
-export interface MarketData {
+export interface projectData {
         // 项目id
         id: string;
         // 项目名称

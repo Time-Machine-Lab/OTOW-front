@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import marketCard from '@/components/market/MarketCard.vue'
-import type {MarketData} from "@/type/market/Market.ts";
+import type {projectData} from "@/type/market/Market.ts";
 import {reactive, ref, computed, watch} from "vue";
+import project from "./project.vue";
+import {tr} from "vuetify/locale";
 
 const searchParam = reactive({
   searchWord: null,
@@ -57,15 +59,25 @@ const selectLanguage = (language: string) => { console.log(`选择了语言: ${l
   activeLanguage.value = null
 }
 
-// 创建 15 条模拟数据
-const marketCards = reactive<MarketData[]>([
-  {id:'0', name: 'Product 1', introduce: 'introduce for product 1', price: 10, cover: 'https://www.clearstreet.io/imgs/home/header/webp/ct_header_end76.webp', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
-  {id:'1', name: 'Product 2', introduce: 'introduce for product 1', price: 10, cover: 'https://www.clearstreet.io/imgs/home/header/webp/ct_header_end76.webp', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
-  {id:'2', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: 'https://www.clearstreet.io/imgs/home/header/webp/ct_header_end76.webp', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
-  {id:'3', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: 'https://www.clearstreet.io/imgs/home/header/webp/ct_header_end76.webp', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
-  {id:'4', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: 'https://www.clearstreet.io/imgs/home/header/webp/ct_header_end76.webp', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
-  {id:'5', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: 'https://www.clearstreet.io/imgs/home/header/webp/ct_header_end76.webp', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
+// 处理项目卡片点击事件
+const projectPopDialog = ref(false)
+const handleCardEvent = function (project: projectData){
+  projectPopDialog.value = true;
+}
 
+// 处理项目弹出关闭事件
+const handleCardClose = function (){
+  projectPopDialog.value = false;
+}
+
+// 创建 15 条模拟数据
+const marketCards = reactive<projectData[]>([
+  {id:'0', name: 'Product 1', introduce: 'introduce for product 1', price: 10, cover: '/src/assets/img/projectCover.jpg', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
+  {id:'1', name: 'Product 2', introduce: 'introduce for product 1', price: 10, cover: '/src/assets/img/projectCover.jpg', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
+  {id:'2', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: '/src/assets/img/projectCover.jpg', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
+  {id:'3', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: '/src/assets/img/projectCover.jpg', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
+  {id:'4', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: '/src/assets/img/projectCover.jpg', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
+  {id:'5', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: '/src/assets/img/projectCover.jpg', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
 ]);
 </script>
 
@@ -145,12 +157,11 @@ const marketCards = reactive<MarketData[]>([
 
       <div class="card-list">
         <div v-for="(marketCard, index) in marketCards">
-          <marketCard :market-data="marketCard"></marketCard>
+          <marketCard :market-data="marketCard" @clickProject="handleCardEvent"></marketCard>
         </div>
       </div>
-
-
   </div>
+  <project v-if="projectPopDialog" @closePop="handleCardClose"></project>
 </template>
 
 <style scoped>
@@ -201,8 +212,7 @@ const marketCards = reactive<MarketData[]>([
 .center-text{
   text-align: center;
   width: 400px;
-  margin: 0 auto;
-  margin-top: 5vh;
+  margin: 3vh auto;
 }
 
 .card-list {

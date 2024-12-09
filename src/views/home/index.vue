@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {ref} from "vue";
-import MarketView from '@/views/market/index.vue'
+import MarketView from '@/views/market/list.vue'
 import WorkbenchView from '@/views/workbench/workbench.vue'
 import Text from "@/components/normal/Text.vue";
 import router from "@/router";
