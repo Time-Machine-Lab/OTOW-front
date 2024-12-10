@@ -3,7 +3,7 @@ import marketCard from '@/components/market/MarketCard.vue'
 import type {projectData} from "@/type/market/Market.ts";
 import {reactive, ref, computed, watch} from "vue";
 import project from "./project.vue";
-import {tr} from "vuetify/locale";
+// import {tr} from "vuetify/locale";
 
 const searchParam = reactive({
   searchWord: null,

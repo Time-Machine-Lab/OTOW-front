@@ -43,8 +43,8 @@ const notice = ref('')
         </div>
       </nav>
       <nav class="side flex">
-        <button v-if="!authStore.isLoggedIn" @click="router.push('/login')">login</button>
-        <button v-else @click="router.push('/personal')">头像</button>
+<!--        <button v-if="!authStore.isLoggedIn" @click="router.push('/login')">login</button>-->
+        <button @click="router.push('/personal')" class="avatar">头像</button>
         <button class="workBtn" @click="router.push('/workbench')">我的工作台</button>
       </nav>
     </header>
@@ -76,20 +76,17 @@ const notice = ref('')
     user-select: none;
     transition: background-color 0.3s;
   }
-
   .tab-button.active {
     background-color: #f4efd3;
     border-bottom: 2px solid #f4efd3;
   }
-  .search{
-    background-color: rgba(0, 0, 0, 0.07);
-    padding: 10px 30px;
-    border-radius: 10px;
-    margin-left:20px;
-  }
   .workBtn{
     margin-left:20px;
     border: 1px solid #3a3a3a;
+  }
+  .avatar{
+    border-radius: 50px;
+    box-shadow: 0 0 3px rgba(86, 86, 86, 0.2);
   }
 }
 
