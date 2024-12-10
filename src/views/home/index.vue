@@ -48,7 +48,7 @@ const notice = ref('')
         <button class="workBtn" @click="router.push('/workbench')">我的工作台</button>
       </nav>
     </header>
-    <div class="tabs-content">
+    <div class="">
       <RouterView></RouterView>
     </div>
   </div>
