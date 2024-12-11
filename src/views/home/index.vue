@@ -65,6 +65,9 @@ const notice = ref('')
 }
 
 .tabs-bar {
+  position: sticky;
+  z-index: 2025;
+  top: 0;
   display: flex;
   background-color: #FFFBDD;
   height:70px;
