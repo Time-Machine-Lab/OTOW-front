@@ -8,6 +8,8 @@ import WorkbenchView from '../views/workbench/workbench.vue'
 import ErrorView from '../views/error/index.vue'
 import PublicComponent from '../views/profile/components/public.vue'
 import IntroView from '../views/intro/index.vue'
+import VipView from '../views/vip/index.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -17,6 +19,7 @@ const router = createRouter({
       component: HomeView,
       children: [
         { path: '', name: 'first', component: IntroView },
+        { path: 'intro', name: 'intro', component: IntroView },
         { path: 'market', name: 'market', component: MarketView },
         { path: 'personal', name: 'personal', component: PersonalView },
         { path: 'profile', name: 'profile', component: ProfileView,
@@ -25,6 +28,7 @@ const router = createRouter({
           ]
         },
         { path: 'workbench', name: 'workbench', component: WorkbenchView },
+        { path: 'vip', name: 'vip', component: VipView },
         { path: 'error', name: 'error', component: ErrorView },
       ]
     },

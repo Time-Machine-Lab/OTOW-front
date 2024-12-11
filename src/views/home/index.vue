@@ -9,8 +9,8 @@ import Snackbar from "@/components/normal/Snackbar.vue";
 // 导航栏
 const currentIndex = ref(0)
 const tabs = [
+  { name: 'home', local: '/intro' },
   { name: 'market', local: '/market' },
-  { name: 'home', local: '/market' },
 ]
 // 通过tab切换内容展示
 const selectTab = (index: any) =>{
@@ -48,7 +48,7 @@ const notice = ref('')
         <button class="workBtn" @click="router.push('/workbench')">我的工作台</button>
       </nav>
     </header>
-    <div class="">
+    <div>
       <RouterView></RouterView>
     </div>
   </div>
@@ -63,13 +63,14 @@ const notice = ref('')
   background-color: #f4efd3;
   height:50px;
 }
-
 .tabs-bar {
   position: sticky;
-  z-index: 2025;
-  top: 0;
+  top:0;
+  width:100%;
   display: flex;
-  background-color: #FFFBDD;
+  background-color: #f0eae1;
+  z-index: 99;
+  box-shadow: 0 0 3px rgba(121, 121, 121, 0.26);
   height:70px;
   .side{
     flex:1;
@@ -80,8 +81,8 @@ const notice = ref('')
     transition: background-color 0.3s;
   }
   .tab-button.active {
-    background-color: #f4efd3;
-    border-bottom: 2px solid #f4efd3;
+    background-color: #f4e4d3;
+    border-bottom: 2px solid #f4e4d3;
   }
   .workBtn{
     margin-left:20px;
@@ -91,10 +92,5 @@ const notice = ref('')
     border-radius: 50px;
     box-shadow: 0 0 3px rgba(86, 86, 86, 0.2);
   }
-}
-
-.tabs-content{
-  width:90%;
-  margin:auto;
 }
 </style>

@@ -4,7 +4,7 @@ import {ref} from "vue";
 
 const tabs = [
   { name:"个人资料", local:"" },
-  { name:"会员", local:"" },
+  { name:"会员", local:"/vip" },
 ]
 const currentIndex = ref(0)
 // 通过tab切换内容展示
@@ -15,26 +15,32 @@ const selectTab = (index: any) =>{
 </script>
 
 <template>
-  <div class="tabs">
-    <h3>个人资料和目录</h3>
-    <div class="tabBar">
-      <div
-          v-for="(item,index) in tabs"
-          :key="index"
-          class="tabItem"
-          :class="{ active: currentIndex === index }"
-          @click="selectTab(index)"
-      >
-        <div>{{item.name}}</div>
+  <div class="profile">
+    <div class="tabs">
+      <h3>个人资料和目录</h3>
+      <div class="tabBar">
+        <div
+            v-for="(item,index) in tabs"
+            :key="index"
+            class="tabItem"
+            :class="{ active: currentIndex === index }"
+            @click="selectTab(index)"
+        >
+          <div>{{item.name}}</div>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="profile">
-    <RouterView></RouterView>
+    <div>
+      <RouterView></RouterView>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.profile{
+  width:90%;
+  margin:auto;
+}
 .tabs{
   display: grid;
   grid-template-columns: 300px 1fr;

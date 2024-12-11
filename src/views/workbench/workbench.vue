@@ -16,9 +16,7 @@ onMounted(() => {
 
 <template>
   <div class="workbench">
-    <div>
-      <Text>我的工作台</Text>
-    </div>
+    <Text><h3>我的工作台</h3></Text>
     <div class="projectList">
       <div class="projectCard">
         <button @click="">
@@ -39,6 +37,9 @@ onMounted(() => {
 <style scoped>
 .workbench{
   background-color: rgba(255, 255, 255, 0.37);
+  width:90%;
+  margin: auto;
+  padding-top: 10px;
 }
 .projectList{
   display: grid;

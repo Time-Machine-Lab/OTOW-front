@@ -37,6 +37,8 @@ const setList = [
 
 <style scoped>
 .personal{
+  width:90%;
+  margin:auto;
   display: grid;
   grid-template-columns: 300px 1fr 1fr 1fr;
 }
