@@ -67,7 +67,7 @@ input{
 button{
   height:70px;
   width:100%;
-  background-color: rgba(12, 12, 12, 0.91);
+  background-color: rgba(7, 7, 7, 0.91);
   color:white;
   font-size: 1.2rem;
 }
