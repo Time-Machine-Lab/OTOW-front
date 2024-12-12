@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import marketCard from '@/components/market/MarketCard.vue'
-import type {projectData} from "@/type/market/Market.ts";
+import marketCard from '../../components/market/MarketCard.vue'
+import type {projectData} from "../../type/market/Market.ts";
 import {reactive, ref, computed, watch} from "vue";
 import project from "./project.vue";
 // import {tr} from "vuetify/locale";
