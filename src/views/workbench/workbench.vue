@@ -3,6 +3,7 @@ import Text from "@/components/normal/Text.vue";
 import {onMounted, ref} from "vue";
 import {searchProject} from "@/api/market/api.ts";
 import type {WorkProject} from "@/api/workbench/type.ts";
+import router from "@/router";
 
 let WorkList = ref<WorkProject[]>([])
 const getWorkList = async () => {
@@ -26,9 +27,13 @@ onMounted(() => {
       <div
         v-for="(item,index) in WorkList"
         :key="index"
-        class="projectCard"
+        class="projectCard active"
+        @click="router.push({path: 'workbench',query: {id: item.id}})"
       >
-        <Text>{{item.name}}</Text>
+        <img v-if="item.cover" :src="item.cover" alt="项目封面"/>
+        <div class="desc">
+          <p>{{item.name}}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -46,13 +51,34 @@ onMounted(() => {
   grid-template-columns: 1fr 1fr 1fr;
 }
 .projectCard{
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 200px;
+  flex-direction: column;
+  min-height: 250px;
   border: solid 1px #e0e0e0;
   border-radius: 10px;
   margin:20px;
+  img{
+    width:100%;
+    height:70%;
+  }
+  .desc{
+    padding: 10px 30px;
+    background-color: white;
+    width:100%;
+    display: flex;
+    align-items: center;
+    flex:1;
+    font-weight: bold;
+  }
+}
+.active{
+  cursor: pointer;
+}
+.active:hover{
+  transform: scale(1.02);
 }
 button{
   background-color: #000000;
@@ -64,7 +90,7 @@ button{
     grid-template-columns: 1fr 1fr;
   }
 }
-@media (max-width: 700px) {
+@media (max-width: 800px) {
   .projectList{
     display: grid;
     grid-template-columns: 1fr;
