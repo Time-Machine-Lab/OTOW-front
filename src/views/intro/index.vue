@@ -10,13 +10,19 @@ const currentImageIndex = ref(0)
 let isAnimating = false
 const isVideoPlaying = ref(true)
 
+// 下滑紫色背景淡出样式
+const blueMaskStyle = reactive({
+  opacity: 1,
+})
+const blackMaskStyle = reactive({
+  opacity: 0,
+})
 const handleScroll = (event: WheelEvent) => {
   if (isAnimating || isVideoPlaying.value) return
   isAnimating = true
-
   const scrollDirection = event.deltaY > 0 ? 1 : -1
   let steps = 5 // 每次滚动切换六张图片
-
+  // 首屏页切换逻辑
   const switchImages = () => {
     const newIndex = currentImageIndex.value + scrollDirection
     if (newIndex >= images.value.length || newIndex < 0) {
@@ -35,6 +41,33 @@ const handleScroll = (event: WheelEvent) => {
     }, 1) // 每次切换间隔10毫秒
   }
 
+  // 下滑蓝色背景的淡出
+  if(scrollDirection === 1 && section2BlueFadeOut.value && blueMaskStyle.opacity > 0){
+    console.log("淡出0.2")
+    const videoElement = document.querySelector('.section2-video') as HTMLVideoElement
+    if (videoElement) {
+      videoElement.play()
+    }
+    if(blueMaskStyle.opacity - 0.2 < 0){
+      blueMaskStyle.opacity = 0
+    }else{
+      blueMaskStyle.opacity -= 0.2
+    }
+
+  }else if(scrollDirection === -1 && blueMaskStyle.opacity < 1){
+    console.log("淡入0.2")
+    if(blueMaskStyle.opacity + 0.2 > 0){
+      blueMaskStyle.opacity = 1
+    }else{
+      blueMaskStyle.opacity += 0.2
+    }
+  }
+
+  // 仅当向上滚动并且滚动到页面顶部时触发图片切换
+  if (scrollDirection === -1 && window.scrollY > 0) {
+    isAnimating = false
+    return
+  }
   switchImages()
 }
 
@@ -44,11 +77,11 @@ const preloadImages = () => {
     img.src = src
   })
 }
-
+// 首屏视频加载后消失绑定动画
 const fadeOutVideo = reactive({
   opacity: 1
 })
-
+// 视频播放后执行钩子
 const handleVideoEnded = () => {
   isVideoPlaying.value = false
   fadeOutVideo.opacity = 0
@@ -73,6 +106,7 @@ onUnmounted(() => {
     videoElement.removeEventListener('ended', handleVideoEnded)
   }
 })
+// 上滑文字绑定Class
 const titleSlidUpClass = ref("")
 const titleSlidUp = (isIntersecting: boolean, entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
   entries.forEach(entry => {
@@ -88,6 +122,33 @@ const titleSlidUp = (isIntersecting: boolean, entries: IntersectionObserverEntry
   })
 }
 
+
+const section2BlueFadeOut = ref(false)
+// section2 背景视频绑定样式
+const section2VideoStyle = reactive({
+  position: '',
+  top: 0
+})
+const visibilitySection2Video = ref(false)
+const fadeOutBlue = (isIntersecting: boolean, entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+  entries.forEach(entry => {
+    const element = entry.target as HTMLElement
+    if (isIntersecting) {
+      element.classList.add("slid-up")
+      element.classList.remove("unvisibility")
+      section2BlueFadeOut.value = true
+      section2VideoStyle.position = 'fixed'
+      visibilitySection2Video.value = true
+    }
+    else {
+      element.classList.add("unvisibility")
+      element.classList.remove("slid-up")
+      section2BlueFadeOut.value = false
+      visibilitySection2Video.value = false
+    }
+    console.log(section2BlueFadeOut.value)
+  })
+}
 interface feature{
   name: string
   desc: string
@@ -113,17 +174,33 @@ const features = reactive<feature[]>([
       <p style="font-size: 50px; margin-bottom: 20px" :class="titleSlidUpClass">ONE TOUCHE ONE WORLD</p>
       <p style="width: 40%; margin: 0 auto; font-weight: lighter; animation-duration: 2s; " :class="titleSlidUpClass"> $1.0 billion in capital raised by some of the most prominent investors, Clear Street services hundreds of institutional clients and supports ~$60 billion in customer balances.</p>
     </div>
-
     <div class="diver"></div>
+  </div>
 
-    <div class="features-container" v-intersect="titleSlidUp" >
+  <div class="section2" >
+    <div class="blue-mask" :style="blueMaskStyle"/>
+    <div class="black-mask" :style="blackMaskStyle"/>
+    <div class="features-container" v-intersect="titleSlidUp" :style="blueMaskStyle">
       <div class="features-box" :class="titleSlidUpClass" v-for="(feature, index) in features ">
         <p style="font-size: 25px">{{feature.name}}</p>
         <div class="feature-img" :style="{ backgroundImage: `url(${feature.img})` }"> </div>
         <p>{{feature.desc}}</p>
       </div>
     </div>
+
+    <div class="video-section">
+      <video v-show="visibilitySection2Video" class="section2-video" :style="section2VideoStyle" src="/img/intro/section2.mp4" muted loop></video>
+      <div class="video-title"  v-intersect="fadeOutBlue">
+         <p>这是一个非常牛逼的项目</p>
+      </div>
+    </div>
   </div>
+
+<!--  <div class="section3">-->
+
+<!--  </div>-->
+
+
 
 
 </template>
@@ -141,6 +218,7 @@ p, span {
 }
 
 .unvisibility{
+  opacity: 0;
   visibility: hidden;
 }
 
@@ -193,13 +271,15 @@ p, span {
   width: 100%;
   height: 5vh;
   border-top: 1px solid rgba(255, 255, 255, 0.5);
-  background-color: #2e21de;
 }
 
+
+
+
 .features-container{
-  background-color: #2e21de;
+  position: relative;
   width: 100%;
-  height: 70vh;
+  height: 75vh;
   padding: 10vh 10vw;
   display: flex;
   align-items: center;
@@ -219,6 +299,65 @@ p, span {
   border-radius: 20px;
 }
 
+ .section2 {
+   position: relative;
+   height: 175vh;
+   z-index: 1; /* 设置较高的z-index */
+ }
+
+ .blue-mask{
+   width: 100%;
+   height: 100%;
+   position: absolute;
+   top: 0;
+   background-color: #2e21de; /* 确保背景色覆盖 */
+ }
+ 
+ .black-mask{
+   width: 100%;
+   height: 100%;
+   position: absolute;
+   top: 0;
+   background-color: black;
+ }
+
+
+.section2 .video-section {
+  position: absolute; /* 更改为relative，确保在背景上显示 */
+  top: 50vh;
+  width: 100%;
+  height: 100vh;
+}
+
+.section2-video{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  transition-delay: 0s;
+  animation-delay: 0s;
+}
+
+.section2 .video-section .video-title {
+  position: absolute;
+  width: 100%;
+  z-index: 10;
+  padding-top: 10vh;
+  top: 70vh;
+  font-size: 50px;
+}
+
+.section2 .video-section .video-title p {
+  text-align: center;
+  letter-spacing: 10px;
+  color: white;
+}
+
+.section3{
+  height: 100vh;
+  width: 100vw;
+  background-color: black;
+}
 
 @keyframes slideUp {
   0% { opacity: 0; transform: translateY(5vh); }
