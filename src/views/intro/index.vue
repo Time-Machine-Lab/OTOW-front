@@ -3,7 +3,7 @@ import { ref, onMounted, onUnmounted, reactive } from 'vue'
 // 初始化图片数组
 const images = ref<string[]>([])
 for (let i = 1; i <= 76; i++) {
-  images.value.push(new URL(`/src/assets/img/intro/ct_header_end${i}.webp`, import.meta.url).href)
+  images.value.push(new URL(`/assets/img/intro/ct_header_end${i}.webp`, import.meta.url).href)
 }
 
 const currentImageIndex = ref(0)
@@ -91,20 +91,20 @@ const titleSlidUp = (isIntersecting: boolean, entries: IntersectionObserverEntry
 interface feature{
   name: string
   desc: string
-  img: URL
+  img: string
 }
 
 const features = reactive<feature[]>([
-  {name: "牛逼", desc: "除了牛逼还是牛逼", img: new URL("/src/assets/img/intro/feature1.jpg")},
-  {name: "牛逼啊", desc: "除了牛逼啊还是牛逼啊", img: new URL("/src/assets/img/intro/feature2.jpg")},
-  {name: "真的牛逼啊", desc: "除了真的的牛逼啊还是真的牛逼啊", img: new URL("/src/assets/img/intro/feature3.jpg")}
+  {name: "牛逼", desc: "除了牛逼还是牛逼", img: '/img/intro/feature1.jpg'},
+  {name: "牛逼啊", desc: "除了牛逼啊还是牛逼啊", img: '/img/intro/feature2.jpg'},
+  {name: "真的牛逼啊", desc: "除了真的的牛逼啊还是真的牛逼啊", img: '/img/intro/feature3.jpg'}
 ])
 
 </script>
 
 <template>
   <div class="image-container"  >
-    <video src="/src/assets/img/intro/intro.mp4" class="intro-video" :style="fadeOutVideo" muted></video>
+    <video src="/img/intro/intro.mp4" class="intro-video" :style="fadeOutVideo" muted></video>
     <img v-for="(image, index) in images" :src="image" :key="index" class="image-slide" :style=" index === currentImageIndex && !isVideoPlaying ? {visibility: 'visible',opacity : 1} : ''"  alt="Slideshow Image" />
   </div>
 

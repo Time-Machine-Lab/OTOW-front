@@ -71,7 +71,7 @@ let clickedProjectData: projectData = reactive<projectData>({
   name: '',
   introduce: '',
   price: 0,
-  cover: new URL(''),
+  cover: '',
   codeLanguage: '',
   viewNums: 0,
   downloadNums: 0,
@@ -85,12 +85,12 @@ const handleCardClose = function (){
 
 // 创建 15 条模拟数据
 const marketCards = reactive<projectData[]>([
-  {id:'0', name: 'Product 1', introduce: 'introduce for product 1', price: 10, cover: new URL("/src/assets/img/projectCover.jpg"), codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
-  {id:'1', name: 'Product 2', introduce: 'introduce for product 1', price: 10, cover: new URL("/src/assets/img/projectCover.jpg"), codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
-  {id:'2', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: new URL("/src/assets/img/projectCover.jpg"), codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
-  {id:'3', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: new URL("/src/assets/img/projectCover.jpg"), codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
-  {id:'4', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: new URL("/src/assets/img/projectCover.jpg"), codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
-  {id:'5', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: new URL("/src/assets/img/projectCover.jpg"), codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
+  {id:'0', name: 'Product 1', introduce: 'introduce for product 1', price: 10, cover: "/img/projectCover.jpg", codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
+  {id:'1', name: 'Product 2', introduce: 'introduce for product 1', price: 10, cover: "/img/projectCover.jpg", codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
+  {id:'2', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: "/img/projectCover.jpg", codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
+  {id:'3', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: "/img/projectCover.jpg", codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
+  {id:'4', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: "/img/projectCover.jpg", codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
+  {id:'5', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: "/img/projectCover.jpg", codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
 ]);
 </script>
 
