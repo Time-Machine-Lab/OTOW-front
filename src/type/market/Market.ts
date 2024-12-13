@@ -8,7 +8,7 @@ export interface projectData {
         // 价格
         price: number;
         // 封面
-        cover: string;
+        cover: URL;
         // 项目语言
         codeLanguage: string;
         // 浏览数量
