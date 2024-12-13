@@ -95,9 +95,9 @@ interface feature{
 }
 
 const features = reactive<feature[]>([
-  {name: "牛逼", desc: "除了牛逼还是牛逼", img: "/src/assets/img/intro/feature1.jpg"},
-  {name: "牛逼啊", desc: "除了牛逼啊还是牛逼啊", img: "/src/assets/img/intro/feature2.jpg"},
-  {name: "真的牛逼啊", desc: "除了真的的牛逼啊还是真的牛逼啊", img: "/src/assets/img/intro/feature3.jpg"}
+  {name: "牛逼", desc: "除了牛逼还是牛逼", img: "@/assets/img/intro/feature1.jpg"},
+  {name: "牛逼啊", desc: "除了牛逼啊还是牛逼啊", img: "@/assets/img/intro/feature2.jpg"},
+  {name: "真的牛逼啊", desc: "除了真的的牛逼啊还是真的牛逼啊", img: "@/assets/img/intro/feature3.jpg"}
 ])
 
 </script>
