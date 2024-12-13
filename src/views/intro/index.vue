@@ -189,7 +189,7 @@ const features = reactive<feature[]>([
     </div>
 
     <div class="video-section">
-      <video v-show="visibilitySection2Video" class="section2-video" :style="section2VideoStyle" src="/img/intro/section2.mp4" muted loop></video>
+      <video v-show="visibilitySection2Video" class="section2-video" :style="section2VideoStyle" style="" src="/img/intro/section2.mp4" muted loop></video>
       <div class="video-title"  v-intersect="fadeOutBlue">
          <p>这是一个非常牛逼的项目</p>
       </div>
