@@ -3,7 +3,7 @@ import { ref, onMounted, onUnmounted, reactive } from 'vue'
 // 初始化图片数组
 const images = ref<string[]>([])
 for (let i = 1; i <= 76; i++) {
-  images.value.push(new URL(`/assets/img/intro/ct_header_end${i}.webp`, import.meta.url).href)
+  images.value.push(`/img/intro/ct_header_end${i}.webp`)
 }
 
 const currentImageIndex = ref(0)
