@@ -10,14 +10,22 @@ const currentImageIndex = ref(0)
 let isAnimating = false
 const isVideoPlaying = ref(true)
 
-// 下滑紫色背景淡出样式
-const blueMaskStyle = reactive({
-  opacity: 1,
-})
-const blackMaskStyle = reactive({
-  opacity: 0,
-})
+
 const handleScroll = (event: WheelEvent) => {
+  switchPicture(event)
+  videoTitleScroll(event)
+}
+
+const section1Display = ref(true)
+const section1Intersect = (isIntersecting: boolean, entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+  section1Display.value = isIntersecting
+}
+
+// 首屏图片滚动切换
+const switchPicture = function (event: WheelEvent) {
+  if(!section1Display.value){
+    return
+  }
   if (isAnimating || isVideoPlaying.value) return
   isAnimating = true
   const scrollDirection = event.deltaY > 0 ? 1 : -1
@@ -29,6 +37,7 @@ const handleScroll = (event: WheelEvent) => {
       isAnimating = false
       return
     }else{
+      console.log('阻止滚动')
       event.preventDefault()
     }
     currentImageIndex.value = newIndex
@@ -40,29 +49,6 @@ const handleScroll = (event: WheelEvent) => {
       }
     }, 1) // 每次切换间隔10毫秒
   }
-
-  // 下滑蓝色背景的淡出
-  if(scrollDirection === 1 && section2BlueFadeOut.value && blueMaskStyle.opacity > 0){
-    console.log("淡出0.2")
-    const videoElement = document.querySelector('.section2-video') as HTMLVideoElement
-    if (videoElement) {
-      videoElement.play()
-    }
-    if(blueMaskStyle.opacity - 0.2 < 0){
-      blueMaskStyle.opacity = 0
-    }else{
-      blueMaskStyle.opacity -= 0.2
-    }
-
-  }else if(scrollDirection === -1 && blueMaskStyle.opacity < 1){
-    console.log("淡入0.2")
-    if(blueMaskStyle.opacity + 0.2 > 0){
-      blueMaskStyle.opacity = 1
-    }else{
-      blueMaskStyle.opacity += 0.2
-    }
-  }
-
   // 仅当向上滚动并且滚动到页面顶部时触发图片切换
   if (scrollDirection === -1 && window.scrollY > 0) {
     isAnimating = false
@@ -70,6 +56,87 @@ const handleScroll = (event: WheelEvent) => {
   }
   switchImages()
 }
+const videoTitle = ref<any>(null);
+const whiteMaskStyle = reactive({
+  opacity: 0,
+})
+
+
+const videoTitleDisplay = ref(false)
+// section2 背景视频绑定样式
+const section2VideoStyle = reactive({
+  position: '',
+  top: 0
+})
+const visibilitySection2Video = ref(false)
+const videoTitleIntersect = (isIntersecting: boolean, entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+  entries.forEach(entry => {
+    const element = entry.target as HTMLElement
+    if (isIntersecting) {
+      element.classList.add("slid-up")
+      element.classList.remove("unvisibility")
+      videoTitleDisplay.value = true
+      section2VideoStyle.position = 'fixed'
+      visibilitySection2Video.value = true
+      const videoElement = document.querySelector('.section2-video') as HTMLVideoElement
+      videoElement.play()
+    }
+    else {
+      element.classList.add("unvisibility")
+      element.classList.remove("slid-up")
+      videoTitleDisplay.value = false
+      visibilitySection2Video.value = false
+    }
+  })
+}
+// 下滑紫色背景淡出样式
+const blueMaskStyle = reactive({
+  opacity: 1,
+})
+
+const section3Style = reactive({
+  zIndex: 0,
+})
+// 获取屏幕像素高度用于vh单位判断
+const twentyVhInPixels = window.innerHeight
+// 背景从蓝色转为视频转白色效果
+const videoTitleScroll = function (event: WheelEvent){
+  const scrollDirection = event.deltaY > 0 ? 1 : -1
+  // 如果视频标题没有在页面中展示则直接不做任何逻辑
+  if(!videoTitleDisplay.value){
+    return
+  }
+  // 当视频文字从下向上滑动到中间时，蓝色遮罩逐渐消失
+
+  const rect = videoTitle.value.getBoundingClientRect();
+  if(scrollDirection === 1 && rect.top < twentyVhInPixels * 0.3){
+    whiteMaskStyle.opacity = Math.min(whiteMaskStyle.opacity + 0.3, 1)
+    // 兜底，当视频标题完全消失时，白色遮罩完全出现
+    if(rect.top < twentyVhInPixels){
+      whiteMaskStyle.opacity = 1
+    }
+    if(whiteMaskStyle.opacity === 1){
+      section3Style.zIndex = 1
+    }
+  }
+  if(scrollDirection === -1 && rect.top > twentyVhInPixels * 0.1){
+    whiteMaskStyle.opacity = Math.max(whiteMaskStyle.opacity - 0.3, 0)
+  }
+
+
+  if(scrollDirection === 1){
+    blueMaskStyle.opacity = Math.max(blueMaskStyle.opacity - 0.2, 0)
+  }
+
+  if(scrollDirection === -1 && whiteMaskStyle.opacity <= 0){
+    blueMaskStyle.opacity = Math.min(blueMaskStyle.opacity + 0.2, 1)
+    if(blueMaskStyle.opacity === 1){
+      section3Style.zIndex = 0
+    }
+  }
+}
+
+
 
 const preloadImages = () => {
   images.value.forEach((src) => {
@@ -123,32 +190,6 @@ const titleSlidUp = (isIntersecting: boolean, entries: IntersectionObserverEntry
 }
 
 
-const section2BlueFadeOut = ref(false)
-// section2 背景视频绑定样式
-const section2VideoStyle = reactive({
-  position: '',
-  top: 0
-})
-const visibilitySection2Video = ref(false)
-const fadeOutBlue = (isIntersecting: boolean, entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
-  entries.forEach(entry => {
-    const element = entry.target as HTMLElement
-    if (isIntersecting) {
-      element.classList.add("slid-up")
-      element.classList.remove("unvisibility")
-      section2BlueFadeOut.value = true
-      section2VideoStyle.position = 'fixed'
-      visibilitySection2Video.value = true
-    }
-    else {
-      element.classList.add("unvisibility")
-      element.classList.remove("slid-up")
-      section2BlueFadeOut.value = false
-      visibilitySection2Video.value = false
-    }
-    console.log(section2BlueFadeOut.value)
-  })
-}
 interface feature{
   name: string
   desc: string
@@ -164,12 +205,12 @@ const features = reactive<feature[]>([
 </script>
 
 <template>
-  <div class="image-container"  >
+  <div class="image-container" v-intersect="section1Intersect">
     <video src="/img/intro/intro.mp4" class="intro-video" :style="fadeOutVideo" muted></video>
     <img v-for="(image, index) in images" :src="image" :key="index" class="image-slide" :style=" index === currentImageIndex && !isVideoPlaying ? {visibility: 'visible',opacity : 1} : ''"  alt="Slideshow Image" />
   </div>
 
-  <div class="blue-section">
+  <div class="diver-title">
     <div class="project-slogan unvisibility" v-intersect="titleSlidUp" >
       <p style="font-size: 50px; margin-bottom: 20px" :class="titleSlidUpClass">ONE TOUCHE ONE WORLD</p>
       <p style="width: 40%; margin: 0 auto; font-weight: lighter; animation-duration: 2s; " :class="titleSlidUpClass"> $1.0 billion in capital raised by some of the most prominent investors, Clear Street services hundreds of institutional clients and supports ~$60 billion in customer balances.</p>
@@ -178,9 +219,9 @@ const features = reactive<feature[]>([
   </div>
 
   <div class="section2" >
-    <div class="blue-mask" :style="blueMaskStyle"/>
-    <div class="black-mask" :style="blackMaskStyle"/>
-    <div class="features-container" v-intersect="titleSlidUp" :style="blueMaskStyle">
+    <div class="blue-mask mask" :style="blueMaskStyle"/>
+    <div class="white-mask mask" :style="whiteMaskStyle"/>
+    <div class="features-container" v-intersect="titleSlidUp" >
       <div class="features-box" :class="titleSlidUpClass" v-for="(feature, index) in features ">
         <p style="font-size: 25px">{{feature.name}}</p>
         <div class="feature-img" :style="{ backgroundImage: `url(${feature.img})` }"> </div>
@@ -189,20 +230,18 @@ const features = reactive<feature[]>([
     </div>
 
     <div class="video-section">
-      <video v-show="visibilitySection2Video" class="section2-video" :style="section2VideoStyle" style="" src="/img/intro/section2.mp4" muted loop></video>
-      <div class="video-title"  v-intersect="fadeOutBlue">
+      <video v-show="visibilitySection2Video" class="section2-video" :style="section2VideoStyle" style="position: fixed" src="/img/intro/section2.mp4" muted loop></video>
+      <div class="video-title" ref="videoTitle"  v-intersect="videoTitleIntersect">
          <p>这是一个非常牛逼的项目</p>
       </div>
     </div>
   </div>
 
-<!--  <div class="section3">-->
-
-<!--  </div>-->
-
-
-
-
+  <div class="section3" :style="whiteMaskStyle" >
+    <p style="font-size: 50px; letter-spacing: 10px">
+      Designed for today’s complex, <br/>global market.
+    </p>
+  </div>
 </template>
 
 <style scoped>
@@ -214,6 +253,7 @@ p, span {
   width: 100vw;
   height: 95vh;
   position: relative;
+  z-index: 99;
   overflow: hidden;
 }
 
@@ -252,8 +292,10 @@ p, span {
   display: none; /* 隐藏视频 */
 }
 
-.blue-section{
+.diver-title{
+  position: relative;
   background-color: #2e21de;
+  z-index: 99;
 }
 
 .project-slogan {
@@ -273,17 +315,16 @@ p, span {
   border-top: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-
-
-
 .features-container{
   position: relative;
+  z-index: 2;
   width: 100%;
   height: 75vh;
   padding: 10vh 10vw;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  overflow: hidden;
 }
 .features-container .features-box{
   width: 30%;
@@ -301,30 +342,33 @@ p, span {
 
  .section2 {
    position: relative;
-   height: 175vh;
+   height: 170vh;
    z-index: 1; /* 设置较高的z-index */
+ }
+
+ .mask{
+   position: fixed;
+   top: 0;
+   height: 100vh;
+   z-index: 1;
  }
 
  .blue-mask{
    width: 100%;
    height: 100%;
-   position: absolute;
-   top: 0;
+
    background-color: #2e21de; /* 确保背景色覆盖 */
  }
  
- .black-mask{
+ .white-mask{
    width: 100%;
-   height: 100%;
-   position: absolute;
-   top: 0;
-   background-color: black;
+   height: 200vh;
+   background-color: #292949;
  }
 
 
 .section2 .video-section {
   position: absolute; /* 更改为relative，确保在背景上显示 */
-  top: 50vh;
   width: 100%;
   height: 100vh;
 }
@@ -343,7 +387,7 @@ p, span {
   width: 100%;
   z-index: 10;
   padding-top: 10vh;
-  top: 70vh;
+  top: 50vh;
   font-size: 50px;
 }
 
@@ -354,9 +398,10 @@ p, span {
 }
 
 .section3{
+  position: relative;
+  z-index: 1;
   height: 100vh;
   width: 100vw;
-  background-color: black;
 }
 
 @keyframes slideUp {
