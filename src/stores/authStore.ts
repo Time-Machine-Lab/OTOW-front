@@ -5,7 +5,6 @@ import {getUserInfo} from "@/api/login/api.ts";
 import { useSnackbarStore } from "@/stores/snackbarStore";
 import {storage} from "@/util/storage.ts";
 
-const snackbarStore = useSnackbarStore();
 export const useAuthStore = defineStore("auth", {
   state: ()=>({
     userInfo: null as UserVO | null,
@@ -38,6 +37,7 @@ export const useAuthStore = defineStore("auth", {
         storage.set("otowUser",user)
       }).catch((error: any)=>{
         this.clearUserInfo()
+        const snackbarStore = useSnackbarStore();
         snackbarStore.showErrorMessage("登录过期，请重新登录!")
         router.push({path:'/login'})
       })
