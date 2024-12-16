@@ -9,7 +9,7 @@ export async function creatProject(data: detail):Promise<any> {
             method: "post",
             data: data
         });
-         response;
+        return response;
     } catch (error) {
         console.error('新建项目请求失败：', error);
     }

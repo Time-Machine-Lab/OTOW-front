@@ -43,7 +43,7 @@ const notice = ref('')
         </div>
       </nav>
       <nav class="side flex">
-<!--        <button v-if="!authStore.isLoggedIn" @click="router.push('/login')">login</button>-->
+        <button v-if="!authStore.token" @click="router.push('/login')">login</button>
 <!--        <button @click="router.push('/personal')" class="avatar">头像</button>-->
         <button class="workBtn" @click="router.push('/personal')">个人中心</button>
       </nav>
