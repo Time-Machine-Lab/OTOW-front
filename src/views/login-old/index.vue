@@ -36,6 +36,7 @@ const loginEvent = function (){
           <button @click="loginEvent" class="login-btn">Login</button>
         </div>
     </div>
+
     <div class="right-img">
       <img src="https://ideaape.com/static/images/neck.avif">
     </div>
