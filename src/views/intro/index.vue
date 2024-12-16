@@ -37,7 +37,6 @@ const switchPicture = function (event: WheelEvent) {
       isAnimating = false
       return
     }else{
-      console.log('阻止滚动')
       event.preventDefault()
     }
     currentImageIndex.value = newIndex
@@ -70,6 +69,7 @@ const section2VideoStyle = reactive({
 })
 const visibilitySection2Video = ref(false)
 const videoTitleIntersect = (isIntersecting: boolean, entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+  videoTitleDisplay.value = isIntersecting
   entries.forEach(entry => {
     const element = entry.target as HTMLElement
     if (isIntersecting) {
@@ -107,10 +107,9 @@ const videoTitleScroll = function (event: WheelEvent){
     return
   }
   // 当视频文字从下向上滑动到中间时，蓝色遮罩逐渐消失
-
   const rect = videoTitle.value.getBoundingClientRect();
   if(scrollDirection === 1 && rect.top < twentyVhInPixels * 0.3){
-    whiteMaskStyle.opacity = Math.min(whiteMaskStyle.opacity + 0.3, 1)
+    whiteMaskStyle.opacity = Math.min(whiteMaskStyle.opacity + 0.1, 1)
     // 兜底，当视频标题完全消失时，白色遮罩完全出现
     if(rect.top < twentyVhInPixels){
       whiteMaskStyle.opacity = 1
@@ -119,16 +118,15 @@ const videoTitleScroll = function (event: WheelEvent){
       section3Style.zIndex = 1
     }
   }
-  if(scrollDirection === -1 && rect.top > twentyVhInPixels * 0.1){
-    whiteMaskStyle.opacity = Math.max(whiteMaskStyle.opacity - 0.3, 0)
-  }
 
+  if(scrollDirection === -1 && rect.top > twentyVhInPixels * 0.1){
+    whiteMaskStyle.opacity = Math.max(whiteMaskStyle.opacity - 0.1, 0)
+  }
 
   if(scrollDirection === 1){
     blueMaskStyle.opacity = Math.max(blueMaskStyle.opacity - 0.2, 0)
   }
-
-  if(scrollDirection === -1 && whiteMaskStyle.opacity <= 0){
+  if(scrollDirection === -1 && rect.top > twentyVhInPixels * 0.5){
     blueMaskStyle.opacity = Math.min(blueMaskStyle.opacity + 0.2, 1)
     if(blueMaskStyle.opacity === 1){
       section3Style.zIndex = 0
@@ -136,7 +134,26 @@ const videoTitleScroll = function (event: WheelEvent){
   }
 }
 
+const section3VideoBox1Style = reactive({
+  transform: 'scale(1)',
+  opacity: 1
+});
 
+const section3VideoBox2Style = reactive({
+  transform: 'scale(1)',
+  opacity: 1
+});
+
+
+const section3BoxFadeout = function (event: WheelEvent){
+  const videoElement1 = document.querySelector('.section3-video1') as HTMLVideoElement
+  const videoElement2 = document.querySelector('.section3-video2') as HTMLVideoElement;
+  const rect1 = videoElement1.getBoundingClientRect()
+  const rect2 = videoElement2.getBoundingClientRect()
+  if(rect1.top < twentyVhInPixels){
+
+  }
+}
 
 const preloadImages = () => {
   images.value.forEach((src) => {
@@ -152,6 +169,18 @@ const fadeOutVideo = reactive({
 const handleVideoEnded = () => {
   isVideoPlaying.value = false
   fadeOutVideo.opacity = 0
+}
+
+const section3AutoPlay = (isIntersecting: boolean, entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+  const videoElement1 = document.querySelector('.section3-video1') as HTMLVideoElement
+  videoElement1.play()
+  const videoElement2 = document.querySelector('.section3-video2') as HTMLVideoElement
+  videoElement2.play()
+
+
+
+
+
 }
 
 onMounted(() => {
@@ -234,13 +263,44 @@ const features = reactive<feature[]>([
       <div class="video-title" ref="videoTitle"  v-intersect="videoTitleIntersect">
          <p>这是一个非常牛逼的项目</p>
       </div>
+
     </div>
   </div>
 
   <div class="section3" :style="whiteMaskStyle" >
-    <p style="font-size: 50px; letter-spacing: 10px">
-      Designed for today’s complex, <br/>global market.
-    </p>
+    <h1 style="font-size: 70px; font-weight: bolder; letter-spacing: 10px;text-align: center; margin-bottom: 10vh; color: #5549ed" v-intersect="titleSlidUp">
+      Designed for <br/> today’s complex, <br/>global market.
+    </h1>
+
+    <div class="section3-box" v-intersect="section3AutoPlay" >
+      <video class="section3-video1" src="/img/intro/section3video1.mp4" muted loop></video>
+      <div class="section3-box-title">
+        <p>Built for <br/> Multi-Asset Clearing</p>
+        <div class="section3-box-bottom">
+          <span>One platform for all asset classes</span>
+          <span>Data available in real-time</span>
+          <span>Information held in a single system</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section3-box" v-intersect="section3AutoPlay" >
+      <video class="section3-video2" src="/img/intro/section3video2.mp4" muted loop></video>
+      <div class="section3-box-title">
+        <p>Built for <br/> Multi-Asset Clearing</p>
+        <div class="section3-box-bottom">
+          <span>One platform for all asset classes</span>
+          <span>Data available in real-time</span>
+          <span>Information held in a single system</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section4">
+      <div>
+
+      </div>
   </div>
 </template>
 
@@ -400,10 +460,60 @@ p, span {
 .section3{
   position: relative;
   z-index: 1;
+  width: 100vw;
+  padding: 0 10vw;
+}
+
+.section3-box{
+  position: relative;
+  margin: 0 auto;
+  margin-bottom: 15vh;
+  width: 55vw;
+  height: 48vh;
+  background-color: white;
+  border-radius: 60px;
+  overflow: hidden;
+}
+
+.section3-box video{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.section3-box .section3-box-title{
+  z-index: 2;
+  position: absolute;
+  left: 20px;
+  bottom: 50px;
+  width: 60%;
+
+}
+.section3-box .section3-box-title p{
+  color: #2e21de;
+  font-size: 40px;
+  font-weight: bolder;
+}
+
+.section3-box .section3-box-bottom{
+  display: flex;
+  align-items: center;
+
+}
+.section3-box .section3-box-bottom span{
+  padding:  0 5px;
+  width: 180px;
+  font-size: 14px;
+  border-left: 1px solid rgba(0,0,0,0.4);
+  color: #2e21de;
+  font-weight: bolder;
+
+}
+
+.section4{
   height: 100vh;
   width: 100vw;
 }
-
 @keyframes slideUp {
   0% { opacity: 0; transform: translateY(5vh); }
   100% { opacity: 1; transform: translateY(0); }
