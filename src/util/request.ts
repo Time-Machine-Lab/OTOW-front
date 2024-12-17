@@ -4,7 +4,8 @@ import { statusTextMap,errorStatusCodes,ignoreStatusCodes } from '@/util/statusC
 import {storage} from "@/util/storage";
 
 const request = axios.create({
-    baseURL: "/api",
+    baseURL: "http://119.3.234.15:9000",
+    // baseURL: "/api",
     timeout: 10000,
 });
 

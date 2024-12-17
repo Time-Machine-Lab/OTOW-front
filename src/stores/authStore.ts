@@ -42,5 +42,6 @@ export const useAuthStore = defineStore("auth", {
         router.push({path:'/login'})
       })
     }
-  }
+  },
+  persist: true,
 });

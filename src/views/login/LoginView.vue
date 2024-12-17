@@ -16,7 +16,7 @@ import coolDownTimer from "@/util/emailCoolDownUtils";
 
 const router = useRouter()
 const snackbarStore = useSnackbarStore()
-const userStore = useAuthStore()
+
 const isLogin = ref(true);
 const sendLoading = ref(false)
 const submitLoading = ref(false)
@@ -118,8 +118,9 @@ const login = async()=>{
     submitLoading.value = true
     await emailLogin(loginForm.value).then(res=>{
       const userData: UserVO = res.data.userVO as UserVO
+      const userStore = useAuthStore()
       userStore.setUserInfo(userData, res.data.token)
-      router.push({path:'/workplace'})
+      router.push({path:'/personal'})
       snackbarStore.showSuccessMessage("🌈 欢迎回来，"+userData.email+"!")
     }).catch((error)=>{
       generatePicCode()
@@ -139,6 +140,7 @@ const register = async()=>{
     await emailRegister(registerForm.value).then(res=>{
       console.log(res.data)
       const userData: UserVO = res.data.userVO as UserVO
+      const userStore = useAuthStore()
       userStore.setUserInfo(userData, res.data.token)
       router.push({path:'/workplace'})
       snackbarStore.showSuccessMessage("🌈 欢迎加入Cyber Nomads!")

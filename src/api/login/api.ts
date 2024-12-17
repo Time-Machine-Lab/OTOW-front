@@ -17,7 +17,7 @@ export function emailRegister(registerForm: RegisterForm):Promise<any>{
 export function sendCodeToEmail(email: string,pid: string,code: string):Promise<any>{
     return request({
         url: '/user/sendCaptcha',
-        method:"post",
+        method:"get",
         params:{
             email: email,
             pid: pid,
