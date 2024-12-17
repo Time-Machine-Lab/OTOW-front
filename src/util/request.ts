@@ -14,7 +14,7 @@ const retryDelay = 1000; // 设置重试的间隔时间
 request.interceptors.request.use(
     (config) => {
         config.headers['Content-Type'] = 'application/json';
-        const Authorization = storage.get<string>('Authorization')
+        const Authorization = storage.get<string>('token')
         if(Authorization) config.headers.Authorization = Authorization
         return config;
     },
