@@ -52,3 +52,14 @@ button{
   src: url("./alimama agile/AlimamaAgileVF-Thin.ttf") ;
   font-display: swap;
 }
+
+ .fade-enter-active, .fade-leave-active {
+   transition: all 0.5s ease;
+ }
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+  transform: translateX(-30px); /* 初始位置从左向右 */
+}
+.fade-leave-active {
+  transform: translateX(30px); /* 结束位置从右向左 */
+}

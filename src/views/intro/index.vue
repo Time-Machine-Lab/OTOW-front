@@ -12,9 +12,23 @@ const isVideoPlaying = ref(true)
 
 
 const handleScroll = (event: WheelEvent) => {
-  switchPicture(event)
-  videoTitleScroll(event)
-}
+  // event.preventDefault(); // 阻止默认滚动行为
+  //
+  // // 调整滚动距离
+  // const scrollDistance = event.deltaY > 0 ? 250 : -250; // 每次滚动 30 像素（可以根据需要调整）
+  //
+  // // 应用平滑滚动效果
+  // window.scrollBy({
+  //   top: scrollDistance,
+  //   behavior: 'smooth'
+  // });
+
+  // 执行其他滚动相关函数
+  switchPicture(event);
+  videoTitleScroll(event);
+  section3BoxFadeout(event)
+};
+
 
 const section1Display = ref(true)
 const section1Intersect = (isIntersecting: boolean, entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
@@ -102,14 +116,15 @@ const twentyVhInPixels = window.innerHeight
 // 背景从蓝色转为视频转白色效果
 const videoTitleScroll = function (event: WheelEvent){
   const scrollDirection = event.deltaY > 0 ? 1 : -1
+  const rect = videoTitle.value.getBoundingClientRect();
+
   // 如果视频标题没有在页面中展示则直接不做任何逻辑
   if(!videoTitleDisplay.value){
     return
   }
   // 当视频文字从下向上滑动到中间时，蓝色遮罩逐渐消失
-  const rect = videoTitle.value.getBoundingClientRect();
   if(scrollDirection === 1 && rect.top < twentyVhInPixels * 0.3){
-    whiteMaskStyle.opacity = Math.min(whiteMaskStyle.opacity + 0.1, 1)
+    whiteMaskStyle.opacity = Math.min(whiteMaskStyle.opacity + 0.2, 1)
     // 兜底，当视频标题完全消失时，白色遮罩完全出现
     if(rect.top < twentyVhInPixels){
       whiteMaskStyle.opacity = 1
@@ -120,18 +135,24 @@ const videoTitleScroll = function (event: WheelEvent){
   }
 
   if(scrollDirection === -1 && rect.top > twentyVhInPixels * 0.1){
-    whiteMaskStyle.opacity = Math.max(whiteMaskStyle.opacity - 0.1, 0)
+    whiteMaskStyle.opacity = Math.max(whiteMaskStyle.opacity - 0.3, 0)
   }
 
   if(scrollDirection === 1){
-    blueMaskStyle.opacity = Math.max(blueMaskStyle.opacity - 0.2, 0)
+    blueMaskStyle.opacity = Math.max(blueMaskStyle.opacity - 0.3, 0)
   }
-  if(scrollDirection === -1 && rect.top > twentyVhInPixels * 0.5){
+  if(scrollDirection === -1 && whiteMaskStyle.opacity ==0){
     blueMaskStyle.opacity = Math.min(blueMaskStyle.opacity + 0.2, 1)
+    console.log(rect.top +","+twentyVhInPixels)
+    if(rect.top > twentyVhInPixels){
+      blueMaskStyle.opacity = 1
+    }
     if(blueMaskStyle.opacity === 1){
       section3Style.zIndex = 0
     }
   }
+  console.log('blueMaskStyle.opacity',blueMaskStyle.opacity)
+
 }
 
 const section3VideoBox1Style = reactive({
@@ -145,15 +166,40 @@ const section3VideoBox2Style = reactive({
 });
 
 
-const section3BoxFadeout = function (event: WheelEvent){
-  const videoElement1 = document.querySelector('.section3-video1') as HTMLVideoElement
+const section3BoxFadeout = function (event: WheelEvent) {
+  const scrollDown = event.deltaY > 0;
+
+  const videoElement1 = document.querySelector('.section3-video1') as HTMLVideoElement;
   const videoElement2 = document.querySelector('.section3-video2') as HTMLVideoElement;
-  const rect1 = videoElement1.getBoundingClientRect()
-  const rect2 = videoElement2.getBoundingClientRect()
-  if(rect1.top < twentyVhInPixels){
+  const rect1 = videoElement1.getBoundingClientRect();
+  const rect2 = videoElement2.getBoundingClientRect();
+  if(section3Display){
+    if (scrollDown) {
+      if (rect1.top < twentyVhInPixels * 0.2) {
+        section3VideoBox1Style.opacity = Math.max(section3VideoBox1Style.opacity - 0.3, 0);
+        section3VideoBox1Style.transform = `scale(${Math.max(parseFloat(section3VideoBox1Style.transform.slice(6, -1)) - 0.1, 0)})`;
+      }
+      if (rect2.top < twentyVhInPixels * 0.2) {
+        section3VideoBox2Style.opacity = Math.max(section3VideoBox2Style.opacity - 0.3, 0);
+        section3VideoBox2Style.transform = `scale(${Math.max(parseFloat(section3VideoBox2Style.transform.slice(6, -1)) - 0.1, 0)})`;
+      }
+    } else {
+      if (rect1.top < twentyVhInPixels * 0.2) {
+        section3VideoBox1Style.opacity = Math.min(section3VideoBox1Style.opacity + 0.3, 1);
+        section3VideoBox1Style.transform = `scale(${Math.min(parseFloat(section3VideoBox1Style.transform.slice(6, -1)) + 0.1, 1)})`;
+      }
+      if (rect2.top < twentyVhInPixels * 0.2) {
+        section3VideoBox2Style.opacity = Math.min(section3VideoBox2Style.opacity + 0.3, 1);
+        section3VideoBox2Style.transform = `scale(${Math.min(parseFloat(section3VideoBox2Style.transform.slice(6, -1)) + 0.1, 1)})`;
+      }
+    }
+
 
   }
-}
+
+};
+
+
 
 const preloadImages = () => {
   images.value.forEach((src) => {
@@ -171,15 +217,14 @@ const handleVideoEnded = () => {
   fadeOutVideo.opacity = 0
 }
 
+const section3Display = ref(false)
+
 const section3AutoPlay = (isIntersecting: boolean, entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
   const videoElement1 = document.querySelector('.section3-video1') as HTMLVideoElement
   videoElement1.play()
   const videoElement2 = document.querySelector('.section3-video2') as HTMLVideoElement
   videoElement2.play()
-
-
-
-
+  section3Display.value = isIntersecting
 
 }
 
@@ -234,74 +279,78 @@ const features = reactive<feature[]>([
 </script>
 
 <template>
-  <div class="image-container" v-intersect="section1Intersect">
-    <video src="/img/intro/intro.mp4" class="intro-video" :style="fadeOutVideo" muted></video>
-    <img v-for="(image, index) in images" :src="image" :key="index" class="image-slide" :style=" index === currentImageIndex && !isVideoPlaying ? {visibility: 'visible',opacity : 1} : ''"  alt="Slideshow Image" />
-  </div>
 
-  <div class="diver-title">
-    <div class="project-slogan unvisibility" v-intersect="titleSlidUp" >
-      <p style="font-size: 50px; margin-bottom: 20px" :class="titleSlidUpClass">ONE TOUCHE ONE WORLD</p>
-      <p style="width: 40%; margin: 0 auto; font-weight: lighter; animation-duration: 2s; " :class="titleSlidUpClass"> $1.0 billion in capital raised by some of the most prominent investors, Clear Street services hundreds of institutional clients and supports ~$60 billion in customer balances.</p>
+  <div class="scroll-container" ref="scrollContainer">
+    <div class="image-container" v-intersect="section1Intersect">
+      <video src="/img/intro/intro.mp4" class="intro-video" :style="fadeOutVideo" muted></video>
+      <img v-for="(image, index) in images" :src="image" :key="index" class="image-slide" :style=" index === currentImageIndex && !isVideoPlaying ? {visibility: 'visible',opacity : 1} : ''"  alt="Slideshow Image" />
     </div>
-    <div class="diver"></div>
-  </div>
 
-  <div class="section2" >
-    <div class="blue-mask mask" :style="blueMaskStyle"/>
-    <div class="white-mask mask" :style="whiteMaskStyle"/>
-    <div class="features-container" v-intersect="titleSlidUp" >
-      <div class="features-box" :class="titleSlidUpClass" v-for="(feature, index) in features ">
-        <p style="font-size: 25px">{{feature.name}}</p>
-        <div class="feature-img" :style="{ backgroundImage: `url(${feature.img})` }"> </div>
-        <p>{{feature.desc}}</p>
+    <div class="diver-title">
+      <div class="project-slogan unvisibility" v-intersect="titleSlidUp" >
+        <p style="font-size: 50px; margin-bottom: 20px" :class="titleSlidUpClass">ONE TOUCHE ONE WORLD</p>
+        <p style="width: 40%; margin: 0 auto; font-weight: lighter; animation-duration: 2s; " :class="titleSlidUpClass"> $1.0 billion in capital raised by some of the most prominent investors, Clear Street services hundreds of institutional clients and supports ~$60 billion in customer balances.</p>
+      </div>
+      <div class="diver"></div>
+    </div>
+
+    <div class="section2" >
+      <div class="blue-mask mask" :style="blueMaskStyle"/>
+      <div class="white-mask mask" :style="whiteMaskStyle"/>
+      <div class="features-container" v-intersect="titleSlidUp" >
+        <div class="features-box" :class="titleSlidUpClass" v-for="(feature, index) in features ">
+          <p style="font-size: 25px">{{feature.name}}</p>
+          <div class="feature-img" :style="{ backgroundImage: `url(${feature.img})` }"> </div>
+          <p>{{feature.desc}}</p>
+        </div>
+      </div>
+
+      <div class="video-section">
+        <video v-show="visibilitySection2Video" class="section2-video" :style="section2VideoStyle" style="position: fixed" src="/img/intro/section2.mp4" muted loop></video>
+        <div class="video-title" ref="videoTitle"  v-intersect="videoTitleIntersect">
+          <p>这是一个非常牛逼的项目</p>
+        </div>
+
       </div>
     </div>
 
-    <div class="video-section">
-      <video v-show="visibilitySection2Video" class="section2-video" :style="section2VideoStyle" style="position: fixed" src="/img/intro/section2.mp4" muted loop></video>
-      <div class="video-title" ref="videoTitle"  v-intersect="videoTitleIntersect">
-         <p>这是一个非常牛逼的项目</p>
+    <div class="section3" :style="whiteMaskStyle" >
+      <h1 style="font-size: 70px; font-weight: bolder; letter-spacing: 10px;text-align: center; margin-bottom: 10vh; color: whitesmoke" v-intersect="titleSlidUp">
+        Designed for <br/> today’s complex, <br/>global market.
+      </h1>
+
+      <div class="section3-box" :style="section3VideoBox1Style" v-intersect="section3AutoPlay" >
+        <video class="section3-video1" src="/img/intro/section3video1.mp4" muted loop></video>
+        <div class="section3-box-title">
+          <p>Built for <br/> Multi-Asset Clearing</p>
+          <div class="section3-box-bottom">
+            <span>One platform for all asset classes</span>
+            <span>Data available in real-time</span>
+            <span>Information held in a single system</span>
+          </div>
+        </div>
       </div>
 
-    </div>
-  </div>
-
-  <div class="section3" :style="whiteMaskStyle" >
-    <h1 style="font-size: 70px; font-weight: bolder; letter-spacing: 10px;text-align: center; margin-bottom: 10vh; color: #5549ed" v-intersect="titleSlidUp">
-      Designed for <br/> today’s complex, <br/>global market.
-    </h1>
-
-    <div class="section3-box" v-intersect="section3AutoPlay" >
-      <video class="section3-video1" src="/img/intro/section3video1.mp4" muted loop></video>
-      <div class="section3-box-title">
-        <p>Built for <br/> Multi-Asset Clearing</p>
-        <div class="section3-box-bottom">
-          <span>One platform for all asset classes</span>
-          <span>Data available in real-time</span>
-          <span>Information held in a single system</span>
+      <div class="section3-box" :style="section3VideoBox2Style" v-intersect="section3AutoPlay" >
+        <video class="section3-video2" src="/img/intro/section3video2.mp4" muted loop></video>
+        <div class="section3-box-title">
+          <p>Built for <br/> Multi-Asset Clearing</p>
+          <div class="section3-box-bottom">
+            <span>One platform for all asset classes</span>
+            <span>Data available in real-time</span>
+            <span>Information held in a single system</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="section3-box" v-intersect="section3AutoPlay" >
-      <video class="section3-video2" src="/img/intro/section3video2.mp4" muted loop></video>
-      <div class="section3-box-title">
-        <p>Built for <br/> Multi-Asset Clearing</p>
-        <div class="section3-box-bottom">
-          <span>One platform for all asset classes</span>
-          <span>Data available in real-time</span>
-          <span>Information held in a single system</span>
-        </div>
+    <div class="section4">
+      <div >
+        <h1 style="font-size: 100px;text-align: center;color: whitesmoke" >TIME MACHINE LAB</h1>
       </div>
     </div>
   </div>
 
-  <div class="section4">
-      <div>
-
-      </div>
-  </div>
 </template>
 
 <style scoped>
@@ -468,8 +517,8 @@ p, span {
   position: relative;
   margin: 0 auto;
   margin-bottom: 15vh;
-  width: 55vw;
-  height: 48vh;
+  width: 52vw;
+  height: 52vh;
   background-color: white;
   border-radius: 60px;
   overflow: hidden;
@@ -511,6 +560,8 @@ p, span {
 }
 
 .section4{
+  position: relative;
+  z-index: 99;
   height: 100vh;
   width: 100vw;
 }

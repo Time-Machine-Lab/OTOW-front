@@ -1,15 +1,25 @@
 <script setup lang="ts">
-import marketCard from '../../components/market/MarketCard.vue'
-import type {projectData} from "../../type/market/Market.ts";
+import marketCard from '@/components/market/MarketCard.vue'
+import type {projectData, searchProjectListParam} from "@/type/market/Market.ts";
 import {reactive, ref, computed, watch} from "vue";
 import project from "./project.vue";
 // import {tr} from "vuetify/locale";
+import {searchProject} from '@/api/market/api.ts'
+const searchParam = reactive<searchProjectListParam>({
+  name: '', // 确保这里有一个默认值
+  language: '',
+  max: 1000,
+  min: 0,
+  page: 0,
+  limit: 8,
+});
 
-const searchParam = reactive({
-  searchWord: null,
-  highestPrice: 1000,
-  lowestPrice: 0
-})
+const searchEvent = async function () {
+  console.log('Search parameters:', searchParam); // 检查 searchParam 的值
+  const res = await searchProject(searchParam);
+  marketCards.splice(0, marketCards.length, ...res);
+};
+
 
 // 搜索框宽度调整
 const searchInputStyle = reactive({
@@ -47,8 +57,8 @@ let priceComponentStyle = reactive({
 
 // 金额范围绑定
 const range = computed({
-  get: () => [searchParam.lowestPrice, searchParam.highestPrice],
-  set: ([min, max]) => { searchParam.lowestPrice = min; searchParam.highestPrice = max }
+  get: () => [searchParam.min, searchParam.max],
+  set: ([min, max]) => { searchParam.min = min; searchParam.max = max }
 })
 
 // 语言
@@ -66,6 +76,7 @@ const handleCardEvent = function (project: projectData){
   clickedProjectData = project;
 }
 
+// 列表点击后传递至项目详情页
 let clickedProjectData: projectData = reactive<projectData>({
   id: '',
   name: '',
@@ -82,6 +93,8 @@ let clickedProjectData: projectData = reactive<projectData>({
 const handleCardClose = function (){
   projectPopDialog.value = false;
 }
+
+
 
 // 创建 15 条模拟数据
 const marketCards = reactive<projectData[]>([
@@ -140,7 +153,6 @@ const marketCards = reactive<projectData[]>([
                     </template>
                   </v-range-slider>
                 </div>
-
               </template>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -160,7 +172,13 @@ const marketCards = reactive<projectData[]>([
               </template>
             </v-expansion-panel>
           </v-expansion-panels>
-          <input :style="searchInputStyle" placeholder="Search">
+          <input :style="searchInputStyle" placeholder="Search" v-model="searchParam.name">
+          <div style="display: inline-flex;align-items: center" @click="searchEvent">
+            <svg class="icon search-btn" aria-hidden="true" >
+              <use xlink:href="#icon-search"></use>
+            </svg>
+          </div>
+
         </div>
       </div>
       <div class="center-text">
@@ -173,6 +191,8 @@ const marketCards = reactive<projectData[]>([
           <marketCard :market-data="marketCard" @clickProject="handleCardEvent"></marketCard>
         </div>
       </div>
+
+    <v-pagination :length="4"></v-pagination>
   </div>
   <project v-if="projectPopDialog" @closePop="handleCardClose" :projectData="clickedProjectData"></project>
 </template>
@@ -191,6 +211,7 @@ const marketCards = reactive<projectData[]>([
   height: 60px;
   border-radius: 20px;
 }
+
 .search-item{
   margin-right: 20px;
 }
@@ -199,7 +220,6 @@ const marketCards = reactive<projectData[]>([
   margin-right: 20vw;
   display: flex;
   height: 45px;
-  width: 60%;
 }
 
 .v-expansion-panel{
@@ -237,6 +257,20 @@ const marketCards = reactive<projectData[]>([
   padding: 0 3vw; /* 左右 padding 为 5vw */
   grid-auto-rows: 650px;
 }
+.search-btn{
+  width: 48px;
+  height: 48px;
+  margin-left: 20px;
+  border-radius: 15px;
+  padding: 10px;
+  font-size: 35px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 2px -1px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+.search-btn:hover{
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
+  transform: scale(1.1);
 
+}
 
 </style>

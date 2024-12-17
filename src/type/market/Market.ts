@@ -17,6 +17,19 @@ export interface projectData {
         downloadNums: number;
         // 作者
         nickname: string;
+}
 
+export interface searchProjectListParam{
+    name: string;
+
+    language: string;
+
+    min: number;
+
+    max: number;
+
+    page: number;
+
+    limit: number;
 
 }
