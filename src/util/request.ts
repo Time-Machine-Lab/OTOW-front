@@ -33,8 +33,10 @@ request.interceptors.response.use(
             snackbarStore.showErrorMessage("请求拦截器异常!");
         }
         let res = response.data;
-        if (!ignoreStatusCodes[res.code]) {
+        if (!ignoreStatusCodes.includes(res.code)) {
             snackbarStore.showErrorMessage(res.msg);
+            console.log(res.code,res.msg,ignoreStatusCodes.includes(res.code))
+            debugger;
         }
         // 如果是返回的文件
         if (response.config.responseType === "blob") {

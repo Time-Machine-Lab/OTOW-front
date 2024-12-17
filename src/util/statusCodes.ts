@@ -28,15 +28,11 @@ export const statusTextMap: Record<number, string> = {
 }
 // 不需要重连的状态码列表
 export const errorStatusCodes = [
-    500, // 服务器发生错误
-    502, // 网关错误
-    503, // 服务不可用
-    504, // 网关超时
-    408 // 请求超时
+    "500", // 服务器发生错误
+    "502", // 网关错误
+    "503", // 服务不可用
+    "504", // 网关超时
+    "408" // 请求超时
 ];
 // 不需要报错提示的白名单
-export const ignoreStatusCodes = [
-    200,
-    301,
-    302
-];
+export const ignoreStatusCodes = ["200", "301", "302"];
