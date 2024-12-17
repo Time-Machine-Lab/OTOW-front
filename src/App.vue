@@ -11,7 +11,6 @@
 .app-container{
   min-width: 100vw;
   min-height: 100vh;
-  background-color: #f0eae1 ;
 }
 
 </style>
