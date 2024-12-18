@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import marketCard from '@/components/market/MarketCard.vue'
 import type {ProjectData, SearchProjectListParam} from "@/type/market/Market.ts";
 import {reactive, ref, computed, watch, onMounted} from "vue";
 import project from "./project.vue";
 // import {tr} from "vuetify/locale";
 import {searchProject} from '@/api/market/api.ts'
+import MarketCard from "@/components/market/MarketCard.vue";
 const searchParam = reactive<SearchProjectListParam>({
   name: '', // 确保这里有一个默认值
   language: '',
