@@ -60,7 +60,7 @@ const switchPicture = function (event: WheelEvent) {
       } else {
         isAnimating = false
       }
-    }, 1) // 每次切换间隔10毫秒
+    }, 10) // 每次切换间隔10毫秒
   }
   // 仅当向上滚动并且滚动到页面顶部时触发图片切换
   if (scrollDirection === -1 && window.scrollY > 0) {
@@ -380,13 +380,14 @@ p, span {
   object-fit: cover;
   visibility: hidden;
   opacity: 0;
-  transition: opacity 0s , visibility 0s 0s;
+  transition: opacity 0s ease-in-out, visibility 0s 0s, transform 0.8s ease-in-out;
 }
 
 .image-slide.active {
   visibility: visible;
   opacity: 1;
 }
+
 
 .intro-video {
   position: absolute;
