@@ -1,4 +1,4 @@
-export interface projectData {
+export interface ProjectData {
         // 项目id
         id: string;
         // 项目名称
@@ -19,7 +19,7 @@ export interface projectData {
         nickname: string;
 }
 
-export interface searchProjectListParam{
+export interface SearchProjectListParam {
     name: string;
 
     language: string;

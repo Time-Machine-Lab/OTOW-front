@@ -12,7 +12,7 @@
           <p>from</p>
           <p style="font-size: 25px; font-weight: bolder; padding-left: 8px">{{props.projectData.price}} RMB</p>
         </div>
-        <div class="download-btn">Get Project!</div>
+        <div class="download-btn" @click="downloadProject">Get Project!</div>
       </div>
       <div class="intro-content"> {{props.projectData.introduce}} </div>
       <div class="bottom-info">
@@ -33,10 +33,11 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { defineProps, defineEmits, onMounted } from 'vue'
-import type { projectData } from '@/type/market/Market.ts'
+import type { ProjectData } from '@/type/market/Market.ts'
+import {downloadProject} from "@/api/market/api.ts";
 
 const props = defineProps<{
-  projectData: projectData;
+  projectData: ProjectData;
 }>()
 const closePopEmits = defineEmits(['closePop']);
 onMounted(()=>{
@@ -53,6 +54,10 @@ const closePopEvent = function () {
   setTimeout(() => {
     closePopEmits('closePop');
   }, 1000) // 动画完成后触发关闭事件
+}
+
+const downloadProject = function (){
+
 }
 </script>
 

@@ -1,8 +1,9 @@
 import request from '@/util/request';
-import type {projectData, searchProjectListParam} from "@/type/market/Market.ts";
+import type {ProjectData, SearchProjectListParam} from "@/type/market/Market.ts";
+import type {PageResult} from "@/type/common/pageResult.ts";
 
 // 查询项目信息
-export async function searchProject(searchParam: searchProjectListParam):Promise<projectData[]>{
+export async function searchProject(searchParam: SearchProjectListParam):Promise<PageResult<ProjectData>>{
     console.log(searchParam)
     try {
         const response = await request({
@@ -10,10 +11,10 @@ export async function searchProject(searchParam: searchProjectListParam):Promise
             method: "post",
             data: searchParam
         })
-        return response.data as projectData[];
+        return response.data as PageResult<ProjectData>;
     } catch (error) {
         console.error('查询项目请求失败：', error);
-        return [];
+        return { respList: [], total: 0 };
     }
 }
 

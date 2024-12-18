@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import marketCard from '@/components/market/MarketCard.vue'
-import type {projectData, searchProjectListParam} from "@/type/market/Market.ts";
-import {reactive, ref, computed, watch} from "vue";
+import type {ProjectData, SearchProjectListParam} from "@/type/market/Market.ts";
+import {reactive, ref, computed, watch, onMounted} from "vue";
 import project from "./project.vue";
 // import {tr} from "vuetify/locale";
 import {searchProject} from '@/api/market/api.ts'
-const searchParam = reactive<searchProjectListParam>({
+const searchParam = reactive<SearchProjectListParam>({
   name: '', // 确保这里有一个默认值
   language: '',
   max: 1000,
@@ -17,9 +17,12 @@ const searchParam = reactive<searchProjectListParam>({
 const searchEvent = async function () {
   console.log('Search parameters:', searchParam); // 检查 searchParam 的值
   const res = await searchProject(searchParam);
-  marketCards.splice(0, marketCards.length, ...res);
+  marketCards.splice(0, marketCards.length, ...res.respList);
 };
 
+onMounted(()=>{
+  searchEvent();
+})
 
 // 搜索框宽度调整
 const searchInputStyle = reactive({
@@ -71,13 +74,13 @@ const selectLanguage = (language: string) => { console.log(`选择了语言: ${l
 
 // 处理项目卡片点击事件
 const projectPopDialog = ref(false)
-const handleCardEvent = function (project: projectData){
+const handleCardEvent = function (project: ProjectData){
   projectPopDialog.value = true;
   clickedProjectData = project;
 }
 
 // 列表点击后传递至项目详情页
-let clickedProjectData: projectData = reactive<projectData>({
+let clickedProjectData: ProjectData = reactive<ProjectData>({
   id: '',
   name: '',
   introduce: '',
@@ -97,14 +100,7 @@ const handleCardClose = function (){
 
 
 // 创建 15 条模拟数据
-const marketCards = reactive<projectData[]>([
-  {id:'0', name: 'Product 1', introduce: 'introduce for product 1', price: 10, cover: '/img/projectCover.jpg', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
-  {id:'1', name: 'Product 2', introduce: 'introduce for product 1', price: 10, cover: '/img/projectCover.jpg', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
-  {id:'2', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: '/img/projectCover.jpg', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
-  {id:'3', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: '/img/projectCover.jpg', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
-  {id:'4', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: '/img/projectCover.jpg', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
-  {id:'5', name: 'Product 3', introduce: 'introduce for product 1', price: 10, cover: '/img/projectCover.jpg', codeLanguage: "java1",viewNums: 10, downloadNums: 0, nickname:"dct"},
-]);
+const marketCards = reactive<ProjectData[]>([]);
 </script>
 
 <template>
