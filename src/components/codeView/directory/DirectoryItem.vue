@@ -40,7 +40,7 @@
   </div>
 </template>
 
-<script>
+<script >
 import {
   FolderPlusIcon,
   FilePlusIcon,
@@ -56,9 +56,11 @@ import FolderIcon from "@/components/codeView/Icons/FolderIcon.vue";
 import FolderOpenIcon from "@/components/codeView/Icons/FolderOpenIcon.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import { SlideYUpTransition, FadeTransition } from "vue2-transitions";
-import FileItem from "./FileItem.vue";
-import DirectoryItem from "./DirectoryItem.vue";
 import { fileTypes } from "../types/vFile.model";
+
+// 异步导入 FileItem 和 DirectoryItem
+const FileItem = () => import("./FileItem.vue");
+const DirectoryItem = () => import("./DirectoryItem.vue");
 
 export default {
   name: "directory",
@@ -177,6 +179,7 @@ export default {
     this.fileTypes = fileTypes;
   },
 };
+
 </script>
 
 <style lang="scss" scoped>
