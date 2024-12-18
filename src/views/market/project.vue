@@ -12,7 +12,7 @@
           <p>from</p>
           <p style="font-size: 25px; font-weight: bolder; padding-left: 8px">{{props.projectData.price}} RMB</p>
         </div>
-        <div class="download-btn" @click="downloadProject">Get Project!</div>
+        <div class="download-btn" @click="downloadProjectEvent">Get Project!</div>
       </div>
       <div class="intro-content"> {{props.projectData.introduce}} </div>
       <div class="bottom-info">
@@ -56,7 +56,7 @@ const closePopEvent = function () {
   }, 1000) // 动画完成后触发关闭事件
 }
 
-const downloadProject = function (){
+const downloadProjectEvent = function (){
 
 }
 </script>
