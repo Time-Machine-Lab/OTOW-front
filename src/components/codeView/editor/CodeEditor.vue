@@ -11,10 +11,10 @@
 </template>
 
 <script>
-import MonacoEditor from "/monaco/index";
+import MonacoEditor from "/monaco";
 import DraculaTheme from "../themes/Dracula";
 import GitHubTheme from "../themes/GitHub";
-import { THEMES } from "../store/ThemeInitStore";
+import { THEMES } from "../store/modules/UI/initialState";
 
 export default {
   components: {

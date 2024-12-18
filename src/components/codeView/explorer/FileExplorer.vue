@@ -37,7 +37,6 @@
 <script>
 import { FilePlusIcon, FolderPlusIcon } from "vue-feather-icons";
 import { SlideYUpTransition } from "vue2-transitions";
-import { mapGetters, mapActions, mapMutations } from "vuex";
 import DirectoryListing from "../directory/DirectoryListing";
 
 export default {

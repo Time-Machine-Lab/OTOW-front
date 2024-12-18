@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import LogoSkeleton from "@/components/codeView/logo/LogoSkeleton";
-import ProgressView from "@/components/codeView/logo/ProgressView";
+import LogoSkeleton from "@/components/codeView/logo/LogoSkeleton.vue";
+import ProgressView from "@/components/codeView/logo/ProgressView.vue";
 export default {
   components: {
     LogoSkeleton,

@@ -36,10 +36,10 @@
 </template>
 
 <script>
-import FileItem from "../directory/FileItem";
-import DirectoryItem from "../directory/DirectoryItem";
+import FileItem from "../directory/FileItem.vue";
+import DirectoryItem from "../directory/DirectoryItem.vue";
 import { FadeTransition } from "vue2-transitions";
-import { fileTypes } from "../types/File.js";
+import { fileTypes } from "../types/vFile.model.js";
 
 export default {
   props: {

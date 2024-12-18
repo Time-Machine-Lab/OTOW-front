@@ -19,15 +19,14 @@
 </template>
 
 <script>
-import Editor from "@/components/codeView/editor/Editor";
-import SideNavigationBar from "@/components/codeView/sider/SideNavigationBar";
-import SearchPanel from "@/components/codeView/search/SearchPanel";
+import Editor from "@/components/codeView/editor/Editor.vue";
+import SideNavigationBar from "@/components/codeView/sider/SideNavigationBar.vue";
+import SearchPanel from "@/components/codeView/search/SearchPanel.vue";
 import { SlideYUpTransition } from "vue2-transitions";
-import {getActivePanelId} from "@/components/codeView/store/ui/uiStore.js"
 
 export default {
   components: {
-    FileExplorer: () => import("@/components/codeView/explorer/FileExplorer"),
+    FileExplorer: () => import("@/components/codeView/explorer/FileExplorer.vue"),
     Editor,
     SideNavigationBar,
     SearchPanel,
@@ -38,8 +37,7 @@ export default {
   },
   computed: {
     getActivePanelId() {
-      return getActivePanelId();
-      // return this.$store.getters['UI/getActivePanelId'];
+      return this.$store.getters['UI/getActivePanelId'];
     }
   },
 };

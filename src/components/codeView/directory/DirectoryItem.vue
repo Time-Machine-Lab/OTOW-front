@@ -52,13 +52,13 @@ import {
   ClipboardIcon,
   FolderMinusIcon,
 } from "vue-feather-icons";
-import FolderIcon from "@/components/Icons/FolderIcon";
-import FolderOpenIcon from "@/components/Icons/FolderOpenIcon";
+import FolderIcon from "@/components/codeView/Icons/FolderIcon.vue";
+import FolderOpenIcon from "@/components/codeView/Icons/FolderOpenIcon.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import { SlideYUpTransition, FadeTransition } from "vue2-transitions";
-import FileItem from "./FileItem";
-import DirectoryItem from "./DirectoryItem";
-import { fileTypes } from "../models/vFile.model";
+import FileItem from "./FileItem.vue";
+import DirectoryItem from "./DirectoryItem.vue";
+import { fileTypes } from "../types/vFile.model";
 
 export default {
   name: "directory",

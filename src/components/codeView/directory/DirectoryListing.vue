@@ -16,7 +16,7 @@
 import FileItem from "./FileItem";
 import DirectoryItem from "./DirectoryItem";
 import { FadeTransition } from "vue2-transitions";
-import { fileTypes } from "../models/vFile.model";
+import { fileTypes } from "../types/vFile.model";
 import { mapGetters, mapActions } from "vuex";
 
 export default {

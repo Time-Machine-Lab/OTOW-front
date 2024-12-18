@@ -80,9 +80,9 @@
 </template>
 
 <script>
-import LoadingScreen from "@/components/codeView/loading/LoadingScreen";
-import TopBar from "./TopBar";
-import { EDITORS } from "../store/editor/init.ts";
+import LoadingScreen from "@/components/codeView/loading/LoadingScreen.vue";
+import TopBar from "./TopBar.vue";
+import { EDITORS } from "../store/modules/Editor/initialState.js";
 import {
   FileIcon,
   FilePlusIcon,
@@ -91,11 +91,11 @@ import {
   GithubIcon,
   GitPullRequestIcon,
 } from "vue-feather-icons";
-import { fileTypes } from "../types/File.js";
+import { fileTypes } from "../types/vFile.model.js";
 import FileDocumentIcon from "../icons/FileDocumentIcon.vue";
 
 const CodeEditor = () => ({
-  component: import("CodeEditor.vue"),
+  component: import("./CodeEditor.vue"),
   loading: LoadingScreen,
   error: LoadingScreen,
 });

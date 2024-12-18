@@ -33,12 +33,12 @@ import {
   CopyIcon,
   ClipboardIcon,
 } from "vue-feather-icons";
-import FileIcon from "@/components/Icons/FileIcon";
-import FileJavascriptIcon from "@/components/Icons/FileJavascriptIcon";
-import FileMarkdownIcon from "@/components/Icons/FileMarkdownIcon";
-import FileJsonIcon from "@/components/Icons/FileJsonIcon";
-import FileDocumentIcon from "@/components/Icons/FileDocumentIcon";
-import FilePythonIcon from "@/components/Icons/FilePythonIcon";
+import FileIcon from "@/components/codeView/Icons/FileIcon.vue";
+import FileJavascriptIcon from "@/components/codeView/Icons/FileJavascriptIcon.vue";
+import FileMarkdownIcon from "@/components/codeView/Icons/FileMarkdownIcon.vue";
+import FileJsonIcon from "@/components/codeView/Icons/FileJsonIcon.vue";
+import FileDocumentIcon from "@/components/codeView/Icons/FileDocumentIcon.vue";
+import FilePythonIcon from "@/components/codeView/Icons/FilePythonIcon.vue";
 import { mapActions } from "vuex";
 import { SlideYUpTransition } from "vue2-transitions";
 

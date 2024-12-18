@@ -5,6 +5,7 @@ import Fuse from "fuse.js";
 import fileStorage from "@/utils/StorageDrivers/IndexedDB"; // Switch storage drivers if needed
 
 export default {
+
   /**
    * Loads all the files available in the localstorage into the store
    */
