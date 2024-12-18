@@ -7,8 +7,7 @@ import router from "@/router";
 
 let WorkList = ref<WorkProject[]>([])
 const getWorkList = async () => {
-  WorkList.value = await searchProject()
-  console.log(WorkList.value)
+
 }
 onMounted(() => {
   getWorkList()
