@@ -184,7 +184,7 @@ const marketCards = reactive<ProjectData[]>([]);
 
       <div class="card-list">
         <div v-for="(marketCard, index) in marketCards">
-          <marketCard :market-data="marketCard" @clickProject="handleCardEvent"></marketCard>
+          <marketCard :key="index" :market-data="marketCard" @clickProject="handleCardEvent"></marketCard>
         </div>
       </div>
 
