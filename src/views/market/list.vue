@@ -7,18 +7,34 @@ import {searchProject} from '@/api/market/api.ts'
 import MarketCard from "@/components/market/MarketCard.vue";
 const searchParam = reactive<SearchProjectListParam>({
   name: '', // 确保这里有一个默认值
-  language: '',
+  codeLanguage: '',
   max: 1000,
   min: 0,
   page: 0,
-  limit: 8,
+  limit: 4,
 });
-
+const total = ref<number>(0);
 const searchEvent = async function () {
-  console.log('Search parameters:', searchParam); // 检查 searchParam 的值
   const res = await searchProject(searchParam);
+  total.value = res.total
   marketCards.splice(0, marketCards.length, ...res.respList);
 };
+
+const handlePageChange = (newPage:any) => {
+  console.log('当前页码:', newPage);
+  // 在这里处理页面变化的逻辑，例如加载新页面的数据
+};
+
+
+const prevPage = (page :number)=>{
+  searchParam.page = page
+  searchEvent()
+}
+
+const nextPage = (page :number)=>{
+  searchParam.page = page
+  searchEvent()
+}
 
 onMounted(()=>{
   searchEvent();
@@ -66,9 +82,10 @@ const range = computed({
 
 // 语言
 const activeLanguage = ref<number | null>(null)
-const languageSelectTypes = ["Java", "Go", "Python"]
+const languageSelectTypes = ["Java", "Go", "Python","Php", "C++"]
 const togglePanel = () => { activeLanguage.value = activeLanguage.value === null ? 0 : null }
-const selectLanguage = (language: string) => { console.log(`选择了语言: ${language}`)
+const selectLanguage = (language: string) => {
+  searchParam.codeLanguage = language
   activeLanguage.value = null
 }
 
@@ -156,7 +173,7 @@ const marketCards = reactive<ProjectData[]>([]);
             <v-expansion-panel>
               <template v-slot:title>
                 <div @click="togglePanel">
-                  <span style="text-wrap: nowrap">语言</span>
+                  <span style="text-wrap: nowrap">语言: {{searchParam.codeLanguage}}</span>
                 </div>
               </template>
               <template v-slot:text>
@@ -188,7 +205,7 @@ const marketCards = reactive<ProjectData[]>([]);
         </div>
       </div>
 
-    <v-pagination :length="4"></v-pagination>
+    <v-pagination  style="margin-top: 20px" v-model="searchParam.page" :length="Math.ceil(total / 2)" @update="handlePageChange" @prev="prevPage" @next="nextPage"></v-pagination>
   </div>
   <project v-if="projectPopDialog" @closePop="handleCardClose" :projectData="clickedProjectData"></project>
 </template>
@@ -196,6 +213,7 @@ const marketCards = reactive<ProjectData[]>([]);
 <style scoped>
 .market-view{
   overflow: hidden;
+  padding-bottom: 100px;
 }
 
 .top-search-bar{

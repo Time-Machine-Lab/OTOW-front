@@ -22,7 +22,7 @@ export interface ProjectData {
 export interface SearchProjectListParam {
     name: string;
 
-    language: string;
+    codeLanguage: string;
 
     min: number;
 

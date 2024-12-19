@@ -2,6 +2,7 @@ import axios from "axios";
 import { useSnackbarStore } from "@/stores/snackbarStore";
 import { statusTextMap,errorStatusCodes,ignoreStatusCodes } from '@/util/statusCodes'
 import {storage} from "@/util/storage";
+import {useAuthStore} from "@/stores/authStore.ts";
 
 const request = axios.create({
     baseURL: "http://119.3.234.15:9000",
@@ -15,7 +16,8 @@ const retryDelay = 1000; // 设置重试的间隔时间
 request.interceptors.request.use(
     (config) => {
         config.headers['Content-Type'] = 'application/json';
-        const Authorization = storage.get<string>('token')
+        const userStore = useAuthStore()
+        const Authorization = userStore.token
         if(Authorization) config.headers.Authorization = Authorization
         return config;
     },
@@ -36,7 +38,6 @@ request.interceptors.response.use(
         if (!ignoreStatusCodes.includes(res.code)) {
             snackbarStore.showErrorMessage(res.msg);
             console.log(res.code,res.msg,ignoreStatusCodes.includes(res.code))
-            debugger;
         }
         // 如果是返回的文件
         if (response.config.responseType === "blob") {

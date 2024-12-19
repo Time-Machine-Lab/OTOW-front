@@ -57,7 +57,7 @@ const closePopEvent = function () {
 }
 
 const downloadProjectEvent = function (){
-
+  const res = downloadProject(props.projectData.id)
 }
 </script>
 

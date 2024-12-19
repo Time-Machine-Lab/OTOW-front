@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { type ProjectData } from '@/type/market/Market.ts';
-import {downloadProject} from '@/api/market/api'
 // 使用 defineProps 来定义组件的 props
 const props = defineProps<{
   marketData: ProjectData;

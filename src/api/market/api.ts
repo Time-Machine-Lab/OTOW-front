@@ -4,7 +4,6 @@ import type {PageResult} from "@/type/common/pageResult.ts";
 
 // 查询项目信息
 export async function searchProject(searchParam: SearchProjectListParam):Promise<PageResult<ProjectData>>{
-    console.log(searchParam)
     try {
         const response = await request({
             url: '/project/search',
@@ -18,7 +17,7 @@ export async function searchProject(searchParam: SearchProjectListParam):Promise
     }
 }
 
-export async function downloadProject(id:number):Promise<any>{
+export async function downloadProject(id: string):Promise<any>{
     try {
         const response = await request({
             url: '/project/download',
