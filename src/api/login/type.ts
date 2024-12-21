@@ -8,7 +8,8 @@ export interface UserVO{
     avatar: string;
     email: string;
     nickname: string;
-    point: number;
+    id: string,
+    phoneNum: string
 }
 export interface LoginForm{
     email: string;
