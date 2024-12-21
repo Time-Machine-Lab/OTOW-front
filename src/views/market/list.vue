@@ -5,7 +5,7 @@ import project from "./project.vue";
 // import {tr} from "vuetify/locale";
 import {searchProject} from '@/api/market/api.ts'
 import MarketCard from "@/components/market/MarketCard.vue";
-const searchParam = reactive<SearchProjectListParam>({
+let searchParam = reactive<SearchProjectListParam>({
   name: '', // 确保这里有一个默认值
   codeLanguage: '',
   max: 1000,
@@ -35,7 +35,15 @@ const nextPage = (page :number)=>{
   searchParam.page = page
   searchEvent()
 }
+// 虚拟滚动
+async function load ({ done }: any) {
+  searchParam.page += 1
+  const res = await searchProject(searchParam)
 
+  marketCards.push(...res.respList)
+
+  done('ok')
+}
 onMounted(()=>{
   searchEvent();
 })
@@ -117,7 +125,7 @@ const handleCardClose = function (){
 
 
 // 创建 15 条模拟数据
-const marketCards = reactive<ProjectData[]>([]);
+let marketCards = reactive<ProjectData[]>([]);
 </script>
 
 <template>
@@ -194,18 +202,22 @@ const marketCards = reactive<ProjectData[]>([]);
 
         </div>
       </div>
-      <div class="center-text">
-         <p style="font-size: 80px; font-weight: bolder">Market</p>
-        <p style="margin: 10px; font-size: 25px">Curated products selected for digital design professionals like you.</p>
-      </div>
+<!--      <div class="center-text">-->
+<!--         <p style="font-size: 80px; font-weight: bolder">Market</p>-->
+<!--        <p style="margin: 10px; font-size: 25px">Curated products selected for digital design professionals like you.</p>-->
+<!--      </div>-->
 
       <div class="card-list">
-        <div v-for="(marketCard, index) in marketCards">
-          <marketCard :key="index" :market-data="marketCard" @clickProject="handleCardEvent"></marketCard>
-        </div>
+        <v-infinite-scroll :items="marketCards" :onLoad="load">
+          <div class="grid-container">
+            <template v-for="(item, index) in marketCards" :key="item">
+              <MarketCard :market-data="item" @clickProject="handleCardEvent"></MarketCard>
+            </template>
+          </div>
+        </v-infinite-scroll>
       </div>
 
-    <v-pagination  style="margin-top: 20px" v-model="searchParam.page" :length="Math.ceil(total / 2)" @update="handlePageChange" @prev="prevPage" @next="nextPage"></v-pagination>
+<!--    <v-pagination  style="margin-top: 20px" v-model="searchParam.page" :length="Math.ceil(total / 2)" @update="handlePageChange" @prev="prevPage" @next="nextPage"></v-pagination>-->
   </div>
   <project v-if="projectPopDialog" @closePop="handleCardClose" :projectData="clickedProjectData"></project>
 </template>
@@ -213,11 +225,11 @@ const marketCards = reactive<ProjectData[]>([]);
 <style scoped>
 .market-view{
   overflow: hidden;
-  padding-bottom: 100px;
+  padding-bottom: 50px;
+  padding-top: 20px;
 }
 
 .top-search-bar{
-  position: relative;
   display: flex;
   align-items: center; /* 垂直居中（可选） */
   width: 80%;
@@ -263,13 +275,31 @@ const marketCards = reactive<ProjectData[]>([]);
 }
 
 .card-list {
+  position: sticky;
+  top:200px;
+}
+.grid-container {
   display: grid;
-  margin: 0 auto;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  max-width: calc(4 * 400px + 3 * 50px + 6vw); /* 控制最大宽度以限制列数 */
-  gap: 50px; /* 元素之间的间隔 */
-  padding: 0 3vw; /* 左右 padding 为 5vw */
-  grid-auto-rows: 650px;
+  grid-template-columns: 1fr 1fr 1fr; /* 两列布局 */
+  gap: 20px; /* 你可以根据需要调整网格项之间的间距 */
+  padding: 10px 5vw;
+}
+@media (max-width: 1200px) {
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 两列布局 */
+    gap: 20px; /* 你可以根据需要调整网格项之间的间距 */
+  }
+}
+@media (max-width: 700px) {
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr; /* 两列布局 */
+    gap: 20px; /* 你可以根据需要调整网格项之间的间距 */
+  }
+  .grid-container::-webkit-scrollbar {
+    display: none;
+  }
 }
 .search-btn{
   width: 48px;

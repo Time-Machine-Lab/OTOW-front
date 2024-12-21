@@ -9,6 +9,7 @@ import ErrorView from '../views/error/index.vue'
 import PublicComponent from '../views/profile/components/public.vue'
 import IntroView from '../views/intro/index.vue'
 import VipView from '../views/vip/index.vue'
+import PayView from '../views/pay/index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,7 +33,9 @@ const router = createRouter({
         { path: 'error', name: 'error', component: ErrorView },
       ]
     },
-    { path: '/login', name: 'login', component: LoginView }
+    { path: '/login', name: 'login', component: LoginView },
+    { path: '/pay', redirect: { name: 'pay', params: { itemName: '0' } }},
+    { path: '/pay/:itemName', name: 'pay', component: PayView },
   ],
 })
 

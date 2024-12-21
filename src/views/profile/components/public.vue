@@ -1,17 +1,14 @@
 <script setup lang="ts">
+import { useAuthStore } from "@/stores/authStore.ts";
+const authStore = useAuthStore();
+const { userInfo } = authStore
 const publicList = [
-  { name: "用户名（*）", content:"" },
-  { name: "显示名称（*）", content:"" }
+  { name: "用户名（*）", content:userInfo?.nickname },
+  { name: "绑定邮箱（*）", content: userInfo?.email },
+  { name: "绑定号码", content: userInfo?.phoneNum },
 ]
-const pwdList = [
-  { name: "当前密码（*）", content:"" },
-  { name: "新密码（*）", content:"" },
-  { name: "确认密码（*）", content:"" }
-]
-const emailList = [
-  { name: "当前电子邮件（*）", content:"" },
-  { name: "新邮箱（*）", content:"" },
-  { name: "确认电子邮件（*）", content:"" }
+const privateList = [
+  { name: "uid（*）", content: userInfo?.id },
 ]
 </script>
 
@@ -22,6 +19,14 @@ const emailList = [
       <div style="font-weight: lighter">在此处添加有关您的信息。</div>
     </aside>
     <div class="publicList">
+      <div
+          v-for="(item,index) in privateList"
+          :key="index"
+          class="publicItem"
+      >
+        <label>{{item.name}}</label>
+        <input v-model="item.content" :disabled="true"/>
+      </div>
       <div
           v-for="(item,index) in publicList"
           :key="index"

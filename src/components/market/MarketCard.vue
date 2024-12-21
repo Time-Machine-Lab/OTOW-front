@@ -45,7 +45,7 @@ const clickProject = function (){
 
 .market-card {
   width: 100%;
-  height: 100%;
+  height: 500px;
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 15px;
   overflow: hidden;

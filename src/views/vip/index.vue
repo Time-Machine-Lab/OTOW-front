@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import router from "@/router";
+
 const vipList =[
-  {name: "Basic", price: "58", desc: ["提供 1 个项目模板","每月免费生成 2 个项目"]},
-  {name: "Professional", price: "118", desc: ["提供 1 个项目模板","每月免费生成 5 个项目"]},
-  {name: "Enterprise", price: "218", desc: ["提供 2 个项目模板","每月免费生成 10 个项目","项目市场产品 10% 折扣"]}
+  {name: "Basic", price: "38", desc: ["提供 1 个项目模板","每月免费生成 2 个项目"]},
+  {name: "Professional", price: "68", desc: ["提供 1 个项目模板","每月免费生成 5 个项目"]},
+  {name: "Enterprise", price: "128", desc: ["提供 2 个项目模板","每月免费生成 10 个项目","项目市场产品 10% 折扣"]}
 ]
 </script>
 
@@ -23,7 +25,7 @@ const vipList =[
           <span style="font-weight: bold;font-size:4rem">￥{{item.price}}</span>
           <span>/ month</span>
         </div>
-        <button>Select {{item.name}}</button>
+        <button @click="router.push({ name: 'pay', params: { itemName: item.price } })">Select {{item.name}}</button>
         <ul>
           <li v-for="(desc, descIndex) in item.desc" :key="descIndex">
             {{ desc }}
@@ -32,6 +34,9 @@ const vipList =[
       </div>
     </div>
   </div>
+  <footer>
+    <label>客服请联系WX: geniussse</label>
+  </footer>
 </template>
 
 <style scoped>
@@ -66,5 +71,9 @@ button{
 ul{
   padding-left:15px;
   margin-top: 60px;
+}
+footer{
+  height:100px;
+  padding: 10px 5vw;
 }
 </style>

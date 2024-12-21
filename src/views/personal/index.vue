@@ -7,9 +7,9 @@ import svg4 from "@/views/personal/icon/svg4.vue";
 
 const setList = [
   { name: '个人资料和目录',router: '/profile', desc: '编辑您的个人资料和目录信息', icon: svg1 },
-  { name: '我的工作台',router: '/workbench', desc: '查看您收藏的模板', icon: svg4 },
+  { name: '我的工作台',router: '/workbench', desc: '查看您制作的项目', icon: svg4 },
   { name: '收藏',router: '/error', desc: '查看您收藏的模板', icon: svg2 },
-  { name: '设置',router: '/error', desc: '查看您收藏的模板', icon: svg3 },
+  { name: '设置',router: '/error', desc: '编辑网站设置', icon: svg3 },
 ]
 </script>
 
