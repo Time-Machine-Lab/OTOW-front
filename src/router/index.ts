@@ -30,11 +30,12 @@ const router = createRouter({
         },
         { path: 'workbench', name: 'workbench', component: WorkbenchView },
         { path: 'vip', name: 'vip', component: VipView },
-        { path: 'pay', name: 'pay', component: PayView },
         { path: 'error', name: 'error', component: ErrorView },
       ]
     },
-    { path: '/login', name: 'login', component: LoginView }
+    { path: '/login', name: 'login', component: LoginView },
+    { path: '/pay', redirect: { name: 'pay', params: { itemName: '0' } }},
+    { path: '/pay/:itemName', name: 'pay', component: PayView },
   ],
 })
 
