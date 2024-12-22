@@ -1,5 +1,3 @@
-import {id} from "vuetify/locale";
-import {name} from "axios";
 
 export interface ProjectData {
         // 项目id

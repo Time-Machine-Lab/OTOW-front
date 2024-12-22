@@ -77,12 +77,6 @@ onMounted(async () => {
 });
 
 
-
-onBeforeUnmount(() => {
-  if (projectInfoRef.value) {
-    projectInfoRef.value.removeEventListener('scroll', onScroll);
-  }
-});
 </script>
 
 
