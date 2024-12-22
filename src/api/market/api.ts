@@ -17,6 +17,16 @@ export async function searchProject(searchParam: SearchProjectListParam):Promise
     }
 }
 
+export async function searchOne(id: string):Promise<ProjectData>{
+
+    const response = await request({
+        url: '/project/searchOne?id='+id,
+        method: "get",
+    })
+    return response.data as ProjectData;
+
+}
+
 export async function downloadProject(id: string):Promise<any>{
     try {
         const response = await request({

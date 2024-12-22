@@ -1,3 +1,6 @@
+import {id} from "vuetify/locale";
+import {name} from "axios";
+
 export interface ProjectData {
         // 项目id
         id: string;
@@ -5,6 +8,8 @@ export interface ProjectData {
         name: string;
         // 介绍
         introduce: string;
+        // 描述
+        description: string;
         // 价格
         price: number;
         // 封面
@@ -20,6 +25,8 @@ export interface ProjectData {
 }
 
 export interface SearchProjectListParam {
+    id: string;
+
     name: string;
 
     codeLanguage: string;
@@ -31,5 +38,5 @@ export interface SearchProjectListParam {
     page: number;
 
     limit: number;
-
 }
+

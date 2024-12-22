@@ -422,7 +422,7 @@ p, span {
 .diver{
   width: 100%;
   height: 5vh;
-  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .features-container{

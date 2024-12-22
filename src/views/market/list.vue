@@ -6,6 +6,7 @@ import project from "./project.vue";
 import {searchProject} from '@/api/market/api.ts'
 import MarketCard from "@/components/market/MarketCard.vue";
 let searchParam = reactive<SearchProjectListParam>({
+  id: "",
   name: '', // 确保这里有一个默认值
   codeLanguage: '',
   max: 1000,
@@ -109,6 +110,7 @@ let clickedProjectData: ProjectData = reactive<ProjectData>({
   id: '',
   name: '',
   introduce: '',
+  description: '',
   price: 0,
   cover: '',
   codeLanguage: '',
