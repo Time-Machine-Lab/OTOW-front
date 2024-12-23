@@ -1,7 +1,7 @@
 <template>
   <div class="mask-top" @click="closePopEvent" :style="maskStyle"/>
   <div class="project-pop" :class="{ 'hide': !isVisible }">
-    <div class="box">
+    <div class="box" style="overflow: hidden">
       <p style="font-weight: lighter">
         {{props.projectData.codeLanguage}} project
       </p>
@@ -89,13 +89,13 @@ onMounted(async () => {
   background-color: #FFFBDD;
   position: fixed;
   bottom: 0;
-  overflow: scroll;
   top:10vh;
   height: auto;
   z-index: 2024;
   transform: translateY(0);
   transition: transform 1s cubic-bezier(0.42, 0, 1, 1);
   animation: pop 0.5s forwards;
+
 }
 
 .project-pop.hide {
@@ -107,7 +107,26 @@ onMounted(async () => {
   overflow-y: scroll;
   margin: 0 3vw;
   width: 50%;
-  height: 200vh;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(144, 147, 153, 0.3);
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-corner {
+    display: none;
+  }
+  &::-webkit-resizer {
+    display: none;
+  }
+
 }
 
 .divider {
@@ -172,8 +191,11 @@ onMounted(async () => {
   border-top: 1px solid rgba(138, 138, 138, 0.5);
 }
 .project-info{
-  overflow-y: scroll;
-  margin-bottom: 100vh;
+  margin-bottom: 50px;
+}
+
+.md-editor{
+  background-color: transparent;
 }
 
 /* 媒体查询 */
@@ -221,4 +243,6 @@ onMounted(async () => {
     transform: translateY(100%);
   }
 }
+
+
 </style>

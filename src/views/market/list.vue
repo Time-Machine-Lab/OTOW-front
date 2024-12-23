@@ -11,8 +11,8 @@ let searchParam = reactive<SearchProjectListParam>({
   codeLanguage: '',
   max: 1000,
   min: 0,
-  page: 0,
-  limit: 4,
+  page: 1,
+  limit: 9,
 });
 const total = ref<number>(0);
 const searchEvent = async function () {
@@ -238,6 +238,7 @@ let marketCards = reactive<ProjectData[]>([]);
   margin: 0 10%;
   height: 60px;
   border-radius: 20px;
+  margin-bottom: 100px;
 }
 
 .search-item{
